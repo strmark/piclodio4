@@ -7,7 +7,7 @@ Piclodio is a web radio player and a also an alarm clock that can be installed o
 You can add url stream to complete the collection. Scheduling alarm clock is easy and can be periodic.
 A local backup MP3 file is used in case of losing internet connection or if the web radio is not anymore available to be sure you'll be awaken.
 
-![piclodio_home](https://github.com/strmark/piclodio4/blob/master/images/piclodio_presentation.png)
+![piclodio_home](https://github.com/strmark/piclodio4/blob/master/front/images/piclodio_presentation.png)
 
 ## Installation
 
