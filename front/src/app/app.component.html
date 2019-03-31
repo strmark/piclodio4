@@ -1,0 +1,32 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>
+    Welcome to {{ title }}!
+  </h1>
+</div>
+<nav class="navbar navbar-expand-md navbar-light">
+  <a class="navbar-brand" routerLink="homepage">Piclodio</a>
+  <button class="navbar-toggler" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div [ngbCollapse]="!isNavbarCollapsed" class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link fa fa-home" routerLink="/homepage" routerLinkActive="active"> Homepage</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link fa fa-music" routerLink="/webradio" routerLinkActive="active"> Internet Radio</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link fa fa-bell" routerLink="/alarm" routerLinkActive="active"> Alarm</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link fa fa-cog" routerLink="/option" routerLinkActive="active"> Option</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <router-outlet></router-outlet>
+</div>

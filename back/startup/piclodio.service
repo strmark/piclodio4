@@ -1,0 +1,14 @@
+[Unit]
+Description=piclodio daemon
+After=network.target
+
+[Service]
+User=pi
+Group=pi
+WorkingDirectory=/home/pi/piclodio
+ExecStart=/usr/bin/java -jar piclodio-0.0.1-SNAPSHOT.jar 
+
+[Install]
+WantedBy=multi-user.target
+
+
