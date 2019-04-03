@@ -62,5 +62,14 @@ Edit the file default.conf `sudo nano /etc/nginx/sites-available/default.conf` a
 with the following content
         root /var/www/piclodio;
 
+And the line
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+with the following
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
 ```
 Piclodio is now available from the address IP of your Raspberry Pi.
