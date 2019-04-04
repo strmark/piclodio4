@@ -5,8 +5,6 @@ import { DatePipe } from '@angular/common';
 import { Player } from './../player/player';
 import { PlayerService } from '../player/player.service';
 import { WebRadio } from './../web-radio/web-radio';
-import { SystemDateService } from './systemdate.service';
-import { SystemDate } from './system-date';
 import { WebRadioService } from '../web-radio/web-radio.service';
 import { Observable, Subscription } from 'rxjs';
 import { interval } from 'rxjs';
@@ -18,27 +16,22 @@ import { interval } from 'rxjs';
 })
 export class HomepageComponent implements OnInit, OnDestroy {
 
-  clock: Date;
-  clockDate: Date;
+  clock: number;
   active_webradios: any[];
   active_alarms: AlarmClock[];
   all_webradios: any[];
-  systemDateSubscribption: Subscription;
-  clockIncrementSubscription: Subscription;
   player: Player;
   playerLoaded: boolean = false;
 
-  datePipe: DatePipe;
-
   constructor(private webRadioService: WebRadioService,
-    private systemDateService: SystemDateService,
     private playerService: PlayerService,
     private alarmClockService: AlarmClockService) {
+        setInterval(() => {
+          this.clock = Date.now();
+        }, 1);
   }
 
   ngOnInit() {
-    // get the backend server time and date
-    this.systemDateSubscribption = this.systemDateService.getSystemDate().subscribe(this.setClockCallback.bind(this));
     // get the active web radio
     this.webRadioService.getAllWebRadios()
       .subscribe(this.filterDefaultWebRadio.bind(this));
@@ -48,24 +41,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
     this.alarmClockService.getAllAlarmClocks().subscribe(this.setActiveAlarmClocks.bind(this));
   }
 
-  // subcribe return the target object
-  setClockCallback(date: Date) {
-    this.clock = date;
-    this.clockIncrementSubscription =
-      interval(1000)
-      .subscribe(this.incrementDate.bind(this));
-  }
-
-  incrementDate() {
-    this.clock.setSeconds(this.clock.getSeconds() + 1);
-    this.clockDate = this.clock;
-    }
-
   ngOnDestroy() {
-    this.systemDateSubscribption.unsubscribe();
-    if (this.clockIncrementSubscription) {
-      this.clockIncrementSubscription.unsubscribe();
-    }
   }
 
 
