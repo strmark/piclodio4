@@ -5,7 +5,7 @@ import nl.oradev.piclodio.job.AlarmJob;
 import nl.oradev.piclodio.model.Webradio;
 import nl.oradev.piclodio.repository.WebradioRepository;
 import nl.oradev.piclodio.payload.PlayerRequest;
-import nl.oradev.piclodio.util.MPlayer;
+import nl.oradev.piclodio.util.VlcPlayer;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,13 +24,13 @@ import java.util.Optional;
 @RequestMapping("/player")
 public class PlayerController {
 
-    private MPlayer mplayer;
+    private VlcPlayer vlcplayer;
 
     @Autowired
     WebradioRepository webradioRepository;
 
     public PlayerController(){
-        this.mplayer = new MPlayer();
+        this.vlcplayer = new VlcPlayer();
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
@@ -82,7 +82,7 @@ public class PlayerController {
     public String startPlayer(String url, Long autoStopMinutes){
         try {
             // no timer so minutes 0l
-            this.mplayer.open(url, autoStopMinutes);
+            this.vlcplayer.open(url, autoStopMinutes);
         } catch (Exception exeception) {
             System.out.println(exeception.getMessage());
         }
@@ -92,7 +92,7 @@ public class PlayerController {
     public String stopPlayer(){
         // stop playing and return status off
         try {
-            this.mplayer.close();
+            this.vlcplayer.close();
         } catch (Exception exception){
             System.out.println(exception.getMessage());
         }
