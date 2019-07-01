@@ -1,4 +1,4 @@
-import {DOCUMENT} from '@angular/platform-browser';
+import { DOCUMENT } from "@angular/common";
 
 // we supose that the backend is on the same server. if not, replace this export by a hard coded ip
 export const hostname = document.location.hostname
