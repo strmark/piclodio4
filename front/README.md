@@ -6,9 +6,9 @@ This part of the project is written with Angular 7 and  was generated with [angu
 
 ### Pre requisite
 
-Install nodejs 10x 
+Install nodejs 12x 
 ```bash
-curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt-get install -y nodejs
 node --version
 ```
