@@ -1,7 +1,7 @@
 # Piclodio
 
 This repository was inspired by from https://github.com/Sispheor/piclodio3/.
-The original project was written in Python2(django) and Angular 2. I've partial rewritten it in Spring-boot and Angular 7.
+The original project was written in Python2(django) and Angular 2. I've initial rewritten it in Spring-boot and Angular 7.
 
 Piclodio is a web radio player and a also an alarm clock that can be installed on a Raspberry Pi.
 You can add url stream to complete the collection. Scheduling alarm clock is easy and can be periodic.
@@ -16,7 +16,7 @@ The project is split in two parts:
 - [Backend](back/README.md)
 - [Frontend](front/README.md)
 
-Installation procedures have been tested on a Raspberry Pi(raspian) and on debian but the project should works on any Linux system that can handle Java and Angular 7.
+Installation procedures have been tested on a Raspberry Pi(raspian) and on debian but the project should works on any Linux system that can handle Java and Angular.
 
 ## License
 

@@ -1,29 +1,29 @@
 # Piclodio frontend
 
-This part of the project is written with Angular 7 and  was generated with [angular-cli](https://github.com/angular/angular-cli) version 7.3.5.
+This part of the project is written with Angular 7 and was generated with [angular-cli](https://github.com/angular/angular-cli) version 7.3.5. It is updated to Angular 8.
 
 ## Installation
 
 ### Pre requisite
 
 Install nodejs 12x 
-```bash
+``` bash
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt-get install -y nodejs
 node --version
 ```
 Clone the project
-```bash
-git clone https://github.com/strmark/piclodio3.git
+``` bash
+git clone https://github.com/strmark/piclodio4.git
 ```
 
 Install Angular cli
-```bash
+``` bash
 sudo npm install -g @angular/cli
 ```
 
 Install dependencies
-```bash
+``` bash
 cd piclodio3/front/
 sudo npm install
 ```
@@ -31,7 +31,7 @@ sudo npm install
 ### Run a development server
 
 Run the developement server
-```bash
+``` bash
 ng serve --host 0.0.0.0
 ```
 Navigate to `http://serer_ip:4200/`. The app will automatically reload if you change any of the source files.
@@ -40,23 +40,23 @@ Navigate to `http://serer_ip:4200/`. The app will automatically reload if you ch
 ### Run a prod server
 
 Install nginx web server
-```bash
+``` bash
 sudo apt-get install nginx
 ```
 
 Build the project to genertate static files
-```bash
+``` bash
 cd piclodio/front/
 ng build --prod --aot
 ```
 
 The last command wil generate a "dist" folder. Place it in the apache web server and give all right to the Apache user
-```bash
+``` bash
 sudo cp -R dist/piclodio /var/www/piclodio
 sudo chown -R www-data: /var/www/piclodio
 ```
 
-```bash
+``` bash
 Edit the file default.conf `sudo nano /etc/nginx/sites-available/default.conf` and change the line
         root /var/www/html;
 with the following content
