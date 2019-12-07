@@ -1,35 +1,32 @@
 package nl.oradev.piclodio.controller;
 
-import nl.oradev.piclodio.exception.ResourceNotFoundException;
-import nl.oradev.piclodio.job.AlarmJob;
 import nl.oradev.piclodio.model.Webradio;
-import nl.oradev.piclodio.repository.WebradioRepository;
 import nl.oradev.piclodio.payload.PlayerRequest;
+import nl.oradev.piclodio.repository.WebradioRepository;
 import nl.oradev.piclodio.util.VlcPlayer;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.net.URL;
 import java.util.List;
-import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/player")
 public class PlayerController {
 
+    private static Logger logger = LoggerFactory.getLogger(PlayerController.class);
+
     private VlcPlayer vlcplayer;
 
-    @Autowired
-    WebradioRepository webradioRepository;
+    private WebradioRepository webradioRepository;
 
-    public PlayerController(){
+    public PlayerController(WebradioRepository webradioRepository){
+        this.webradioRepository = webradioRepository;
         this.vlcplayer = new VlcPlayer();
     }
 
@@ -40,8 +37,8 @@ public class PlayerController {
 
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
     public String updatePlayer(@RequestBody PlayerRequest player) {
-        System.out.println("Webradio: "+player.getWebradio());
-        System.out.println("Status:" +player.getStatus());
+        logger.info( "Webradio: {}", player.getWebradio());
+        logger.info( "Status: {}" , player.getStatus());
 
         if (player.getStatus().equals("on"))
            return startPlayer(player.getWebradio(), 0l);
@@ -50,8 +47,8 @@ public class PlayerController {
    }
 
     public String startPlayer(Long webradioId, Long autoStopMinutes) {
-        System.out.println("Webradio: "+webradioId);
-        System.out.println("Webradio: "+autoStopMinutes);
+        logger.info( "Webradio: {}", webradioId);
+        logger.info( "Webradio: {}", autoStopMinutes);
         String url = new String("dummy");
 
         List<Webradio> webradioList = webradioRepository.findAll();
@@ -84,7 +81,7 @@ public class PlayerController {
             // no timer so minutes 0l
             this.vlcplayer.open(url, autoStopMinutes);
         } catch (Exception exeception) {
-            System.out.println(exeception.getMessage());
+            logger.error(exeception.getMessage(), exeception);
         }
         return "{\"status\":\"on\"}";
     }
@@ -94,7 +91,7 @@ public class PlayerController {
         try {
             this.vlcplayer.close();
         } catch (Exception exception){
-            System.out.println(exception.getMessage());
+            logger.error(exception.getMessage(), exception);
         }
         return "{\"status\":\"off\"}";
     }

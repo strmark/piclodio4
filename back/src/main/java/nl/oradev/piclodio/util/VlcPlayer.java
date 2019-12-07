@@ -1,39 +1,33 @@
 package nl.oradev.piclodio.util;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
+import java.io.PrintStream;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
-import java.util.logging.Level;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * A player which is actually an interface to the famous Vlc player.
- */
 public class VlcPlayer {
 
-    private static Logger logger = Logger.getLogger(VlcPlayer.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(VlcPlayer.class);
 
-    /** A thread that reads from an input stream and outputs to another line by line. */
     private static class LineRedirecter extends Thread {
-        /** The input stream to read from. */
         private InputStream in;
-        /** The output stream to write to. */
         private OutputStream out;
-        /** The prefix used to prefix the lines when outputting to the logger. */
         private String prefix;
 
-        /**
-         * @param in the input stream to read from.
-         * @param out the output stream to write to.
-         * @param prefix the prefix used to prefix the lines when outputting to the logger.
-         */
         LineRedirecter(InputStream in, OutputStream out, String prefix) {
             this.in = in;
             this.out = out;
             this.prefix = prefix;
         }
 
-        public void run()
-        {
+        public void run() {
             try {
                 // creates the decorating reader and writer
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -47,20 +41,16 @@ public class VlcPlayer {
                     //printStream.println(line);
                 }
             } catch (IOException exc) {
-                logger.log(Level.WARNING, "An error has occured while grabbing lines", exc);
+                logger.error( "An error has occured while grabbing lines {}", exc);
             }
         }
 
     }
 
-    /** The path to the VlcPlayer executable. */
     private String vlcplayerPath = "/usr/bin/cvlc";
 
-    /** The process corresponding to VlcPlayer. */
     private Process vlcplayerProcess;
-    /** The standard input for VlcPlayer where you can send commands. */
     private PrintStream vlcplayerIn;
-    /** A combined reader for the the standard output and error of VlcPlayer. Used to read VlcPlayer responses. */
     private BufferedReader vlcplayerOutErr;
 
     public VlcPlayer() {
@@ -73,13 +63,10 @@ public class VlcPlayer {
             logger.info("Starting VlcPlayer process: " + command);
             vlcplayerProcess = Runtime.getRuntime().exec(command);
 
-            // create the piped streams where to redirect the standard output and error of VlcPlayer
-            // specify a bigger pipesize
-            PipedInputStream  readFrom = new PipedInputStream(1024*1024);
+            PipedInputStream readFrom = new PipedInputStream(1024*1024);
             PipedOutputStream writeTo = new PipedOutputStream(readFrom);
             vlcplayerOutErr = new BufferedReader(new InputStreamReader(readFrom));
 
-            // create the threads to redirect the standard output and error of VlcPlayer
             new LineRedirecter(vlcplayerProcess.getInputStream(), writeTo, "VlcPlayer says: ").start();
             new LineRedirecter(vlcplayerProcess.getErrorStream(), writeTo, "VlcPlayer encountered an error: ").start();
 
@@ -113,10 +100,6 @@ public class VlcPlayer {
         return vlcplayerProcess != null;
     }
 
-    /** Read from the VlcPlayer standard output and error a line that starts with the given parameter and return it.
-     * @param expected the expected starting string for the line
-     * @return the entire line from the standard output or error of VlcPlayer
-     */
     private String waitForAnswer(String expected) {
         String line = null;
         if (expected != null) {

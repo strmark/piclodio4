@@ -27,19 +27,15 @@ cp database/piclodio.db.* /home/pi/database/
 
 ## Run the backend
 
-### MPlayer setting
-I make use of an USB audo device with the Raspberry Pi. For that I adjusted the config file of the mplayer. An example of my config file can be found in back/config.
-
-### manually with the integrated web server
-### Manually with mvnw
+### Manually with mvn
 ```bash
 cd back
-./mvnw spring-boot:run
+mvn spring-boot:run
 ```
 
 ### Automatically at each startup with systemd (Prod)
 ```bash
-./mvnw package
+mvn package
 cp target/piclodio-0.0.1-SNAPSHOT.jar /home/pi/piclodio/
 ```
 Create and open a Systemd service file for Gunicorn with sudo privileges in your text editor:
