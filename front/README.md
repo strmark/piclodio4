@@ -1,6 +1,6 @@
 # Piclodio frontend
 
-This part of the project is written with Angular 7 and was generated with [angular-cli](https://github.com/angular/angular-cli) version 7.3.5. It is updated to Angular 8.
+This part of the project was written with Angular 7 and was generated with [angular-cli](https://github.com/angular/angular-cli) version 7.3.5. It is now updated to Angular 8.
 
 ## Installation
 
@@ -24,18 +24,17 @@ sudo npm install -g @angular/cli
 
 Install dependencies
 ``` bash
-cd piclodio3/front/
+cd piclodio4/front/
 sudo npm install
 ```
 
 ### Run a development server
 
-Run the developement server
+Run the development server
 ``` bash
 ng serve --host 0.0.0.0
 ```
-Navigate to `http://serer_ip:4200/`. The app will automatically reload if you change any of the source files.
-
+Navigate to `http://server_ip:4200/`. The app will automatically reload if you change any of the source files.
 
 ### Run a prod server
 
@@ -44,13 +43,13 @@ Install nginx web server
 sudo apt-get install nginx
 ```
 
-Build the project to genertate static files
+Build the project to generate static files
 ``` bash
 cd piclodio/front/
 ng build --prod --aot
 ```
 
-The last command wil generate a "dist" folder. Place it in the apache web server and give all right to the Apache user
+The last command wil generate a "dist" folder. Place it in the nginx web server and give all right to the nginx user
 ``` bash
 sudo cp -R dist/piclodio /var/www/piclodio
 sudo chown -R www-data: /var/www/piclodio

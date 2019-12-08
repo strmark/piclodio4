@@ -1,22 +1,22 @@
 package nl.oradev.piclodio.controller;
 
+
 import nl.oradev.piclodio.payload.VolumeRequest;
+import nl.oradev.piclodio.util.Audio;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-
-import nl.oradev.piclodio.util.Audio;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/volume")
 public class VolumeController {
+
+    private static final Logger logger = LoggerFactory.getLogger(VolumeController.class);
 
     private float vol = 0F;
 
@@ -37,7 +37,7 @@ public class VolumeController {
 
         vol = Float.valueOf(volValue)/100;
        
-        System.out.println(vol);
+        logger.info("Volume {}", vol);
         Audio audio = new Audio();
         audio.setSpeakerOutputVolume(vol);
         return "{\"volume\":"+ volValue +"}";

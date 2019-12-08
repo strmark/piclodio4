@@ -7,19 +7,29 @@ import nl.oradev.piclodio.model.Webradio;
 import nl.oradev.piclodio.payload.ScheduleAlarmResponse;
 import nl.oradev.piclodio.repository.AlarmRepository;
 import nl.oradev.piclodio.repository.WebradioRepository;
-import org.quartz.*;
+import org.quartz.CronScheduleBuilder;
+import org.quartz.JobBuilder;
+import org.quartz.JobDataMap;
+import org.quartz.JobDetail;
+import org.quartz.JobKey;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -27,14 +37,17 @@ import java.util.UUID;
 public class AlarmController {
     private static final Logger logger = LoggerFactory.getLogger(AlarmController.class);
 
-    @Autowired
-    AlarmRepository alarmRepository;
+    private AlarmRepository alarmRepository;
 
-    @Autowired
-    WebradioRepository webradioRepository;
+    private WebradioRepository webradioRepository;
 
-    @Autowired
     private Scheduler scheduler;
+
+    public AlarmController(AlarmRepository alarmRepository, WebradioRepository webradioRepository, Scheduler scheduler) {
+        this.alarmRepository = alarmRepository;
+        this.webradioRepository = webradioRepository;
+        this.scheduler = scheduler;
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Alarm> getAllAlarm() {
@@ -100,7 +113,7 @@ public class AlarmController {
             Webradio webradio  = webradioOptional.get();
             JobKey jobkey = new JobKey("Piclodio_"+alarmDetails.getWebradio(), "Alarm-jobs");
             if (scheduler.checkExists(jobkey)){
-                System.out.println("Already exists");
+                logger.info("Already exists");
                 scheduler.deleteJob(jobkey);
             }
             if (alarmDetails.isIs_active()) {
@@ -136,7 +149,7 @@ public class AlarmController {
         try {
             JobKey jobkey = new JobKey("Piclodio_"+alarm.getWebradio(), "Alarm-jobs");
             if (scheduler.checkExists(jobkey)){
-                System.out.println("Delete schedule");
+                logger.info("Delete schedule");
                 scheduler.deleteJob(jobkey);
             }
         } catch (SchedulerException ex) {

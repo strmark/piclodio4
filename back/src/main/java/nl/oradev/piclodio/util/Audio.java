@@ -1,7 +1,7 @@
 package nl.oradev.piclodio.util;
+
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.BooleanControl;
 import javax.sound.sampled.CompoundControl;
@@ -14,13 +14,6 @@ import javax.sound.sampled.Mixer;
 import javax.sound.sampled.Mixer.Info;
 
 public class Audio {
-
-    public static void main(String[] args) throws Exception {
-        System.out.println(getHierarchyInfo());
-        System.out.println(getSpeakerOutputVolume());
-        setSpeakerOutputVolume(0.5F);
-        System.out.println(getSpeakerOutputVolume());
-    }
 
     public static void setSpeakerOutputVolume(float value) {
         if (value < 0 || value > 1)
