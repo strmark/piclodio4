@@ -1,12 +1,18 @@
 
 # Piclodio backend
 
-This part of the project is written with Spring-boot, H2 database, MPlayer/VLC, ALSA and the Quartz scheduler to provide the backend REST API.
+This part of the project is written with Spring-boot, H2 database, VLC, ALSA and the Quartz scheduler to provide the backend REST API.
 
 ## Installation 
 This installation procedure will works on Raspian.
 
 ### Pre requisite and libs
+
+``` bash
+sudo apt-get update
+sudo apt-get install apt-transport-https
+sudo apt-get install git openjdk-11-jdk vlc libasound2-dev
+```
 
 Clone the project
 ``` bash
@@ -63,7 +69,7 @@ ExecStart=/usr/bin/java -jar piclodio-0.0.1-SNAPSHOT.jar
 WantedBy=multi-user.target
 ```
 
-We can now start the Gunicorn service we created and enable it so that it starts at boot:
+We can now start the service we created and enable it so that it starts at boot:
 ``` bash
 sudo systemctl daemon-reload
 sudo systemctl start piclodio
@@ -71,4 +77,3 @@ sudo systemctl enable piclodio
 ```
 
 The backend API should now be accessible on the port 8000 of the server.
-
