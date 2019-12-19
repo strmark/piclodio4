@@ -72,10 +72,12 @@ public class Audio {
         }
     }
 
+
     public static Line getSpeakerOutputLine() {
         for (Mixer mixer : getMixers()) {
+            if (mixer.getMixerInfo().getName().contains("hw:1"))
             for (Line line : getAvailableOutputLines(mixer)) {
-                if (line.getLineInfo().toString().contains("Speaker")) return line;
+                if (line.getLineInfo().toString().contains("PCM")) return line;
             }
         }
         return null;
