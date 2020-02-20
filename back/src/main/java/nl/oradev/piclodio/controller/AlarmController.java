@@ -70,15 +70,15 @@ public class AlarmController {
                                            @Valid @RequestBody Alarm alarmDetails) {
 
         //0 45 6 ? * MON,TUE,WED,THU,FRI *
-        String cronSchedule = new String("10 * * * * ?");
-        String cronDays = new String("");
+        String cronSchedule = "10 * * * * ?";
+        String cronDays = "";
         Alarm alarm = alarmRepository.findById(alarmId)
                 .orElseThrow(() -> new ResourceNotFoundException("Alarm", "id", alarmId));
 
         alarm.setMinute(alarmDetails.getMinute());
-        cronSchedule = new String( "0 " + alarmDetails.getMinute() + " " );
+        cronSchedule = "0 " + alarmDetails.getMinute() + " ";
         alarm.setHour(alarmDetails.getHour());
-        cronSchedule = new String( cronSchedule + alarmDetails.getHour() + " ? * " );
+        cronSchedule = cronSchedule + alarmDetails.getHour() + " ? * ";
         alarm.setName(alarmDetails.getName());
         alarm.setMonday(alarmDetails.isMonday());
         if (alarmDetails.isMonday())
@@ -102,11 +102,11 @@ public class AlarmController {
         if (alarmDetails.isSunday())
             cronDays = stringConcat( cronDays ,"SUN");
         alarm.setAuto_stop_minutes(alarmDetails.getAuto_stop_minutes());
-        cronDays = new String( cronDays +" *");
+        cronDays = cronDays + " *";
         alarm.setIs_active(alarmDetails.isIs_active());
         alarm.setWebradio(alarmDetails.getWebradio());
         Alarm updatedAlarm = alarmRepository.save(alarm);
-        cronSchedule = new String (cronSchedule + cronDays);
+        cronSchedule = cronSchedule + cronDays;
 
         try {
             Optional <Webradio> webradioOptional = webradioRepository.findById(alarmDetails.getWebradio());
@@ -120,7 +120,7 @@ public class AlarmController {
                 //JobDetail jobDetail = buildJobDetail(alarmDetails.getName()+'_'+alarmDetails.getWebradio()
                 JobDetail jobDetail = buildJobDetail("Piclodio_" + alarmDetails.getWebradio()
                         , alarmDetails.getWebradio()
-                        , Long.valueOf(alarmDetails.getAuto_stop_minutes())
+                        , (long) alarmDetails.getAuto_stop_minutes()
                         , webradio.getUrl());
 
                 Trigger trigger = buildJobTrigger(jobDetail, cronSchedule, ZonedDateTime.now());
@@ -129,14 +129,12 @@ public class AlarmController {
 
                 ScheduleAlarmResponse scheduleAlarmResponse = new ScheduleAlarmResponse(true,
                         jobDetail.getKey().getName(), jobDetail.getKey().getGroup(), "Alarm Scheduled Successfully!");
-                //return ResponseEntity.ok(scheduleAlarmResponse);
             }
         } catch (SchedulerException ex) {
             logger.error("Error scheduling Alarm", ex);
 
             ScheduleAlarmResponse scheduleAlarmResponse = new ScheduleAlarmResponse(false,
                     "Error scheduling Alarm. Please try later!");
-            //return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(scheduleAlarmResponse);
         }
         return updatedAlarm;
     }
@@ -162,9 +160,9 @@ public class AlarmController {
 
     private String stringConcat(String cronDays, String day){
         if (cronDays.isEmpty())
-            return new String(day);
+            return day;
         else
-            return new String(cronDays +","+day);
+            return cronDays + "," + day;
     }
 
     private JobDetail buildJobDetail(String alarmName, Long webradio, Long autoStopMinutes, String url) {

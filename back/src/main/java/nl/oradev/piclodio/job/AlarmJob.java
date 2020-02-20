@@ -3,12 +3,11 @@ package nl.oradev.piclodio.job;
 import nl.oradev.piclodio.controller.PlayerController;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 @Component
 public class AlarmJob extends QuartzJobBean {
@@ -21,7 +20,7 @@ public class AlarmJob extends QuartzJobBean {
     }
 
     @Override
-    protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+    protected void executeInternal(JobExecutionContext jobExecutionContext) {
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
         logger.info("Executing Job with key {}", jobExecutionContext.getJobDetail().getKey());
 

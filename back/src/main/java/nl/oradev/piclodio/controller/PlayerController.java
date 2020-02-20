@@ -41,7 +41,7 @@ public class PlayerController {
         logger.info( "Status: {}" , player.getStatus());
 
         if (player.getStatus().equals("on"))
-           return startPlayer(player.getWebradio(), 0l);
+           return startPlayer(player.getWebradio(), 0L);
          else
            return stopPlayer();
    }
@@ -49,27 +49,27 @@ public class PlayerController {
     public String startPlayer(Long webradioId, Long autoStopMinutes) {
         logger.info( "Webradio: {}", webradioId);
         logger.info( "Webradio: {}", autoStopMinutes);
-        String url = new String("dummy");
+        String url = "dummy";
 
         List<Webradio> webradioList = webradioRepository.findAll();
 
         if (webradioId == null){
             for (Webradio webradio: webradioList) {
                 if (webradio.isIs_default())
-                    url = new String(webradio.getUrl());
+                    url = webradio.getUrl();
             }
         } else {
             for (Webradio webradio: webradioList) {
-                if (webradio.isIs_default() && webradio.getId() == webradioId)
-                    url = new String(webradio.getUrl());
-                if (webradio.isIs_default() && webradio.getId() != webradioId){
+                if (webradio.isIs_default() && webradio.getId().equals(webradioId))
+                    url = webradio.getUrl();
+                if (webradio.isIs_default() && !webradio.getId().equals(webradioId)){
                     webradio.setIs_default(false);
                     webradioRepository.save(webradio);
                 }
-                if (!webradio.isIs_default() && webradio.getId() == webradioId) {
+                if (!webradio.isIs_default() && webradio.getId().equals(webradioId)) {
                     webradio.setIs_default(true);
                     webradioRepository.save(webradio);
-                    url = new String(webradio.getUrl());
+                    url = webradio.getUrl();
                 }
             }
         }

@@ -54,8 +54,7 @@ public class WebradioController {
         webradio.setUrl(webradioDetails.getUrl());
         webradio.setIs_default(webradio.isIs_default());
 
-        Webradio updatedWebradio = webradioRepository.save(webradio);
-        return updatedWebradio;
+        return webradioRepository.save(webradio);
     }
 
     @DeleteMapping("/webradio/{id}")
