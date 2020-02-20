@@ -22,8 +22,7 @@ public class VolumeController {
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     public String getVolume() {
-        Audio audio = new Audio();
-        int vol = (int)Math.ceil((double)audio.getSpeakerOutputVolume()*100);
+        int vol = (int)Math.ceil((double) Audio.getSpeakerOutputVolume()*100);
         if (vol < 0)
             vol = 0;
         if (vol > 100)
@@ -32,14 +31,13 @@ public class VolumeController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
-    public String updateVolume(@RequestBody VolumeRequest volume )throws Exception {
+    public String updateVolume(@RequestBody VolumeRequest volume ) {
         String volValue = volume.getVolume();
 
-        vol = Float.valueOf(volValue)/100;
+        vol = Float.parseFloat(volValue)/100;
        
         logger.info("Volume {}", vol);
-        Audio audio = new Audio();
-        audio.setSpeakerOutputVolume(vol);
+        Audio.setSpeakerOutputVolume(vol);
         return "{\"volume\":"+ volValue +"}";
     }
 
