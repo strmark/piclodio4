@@ -34,6 +34,7 @@ public class Webradio {
     @NotBlank
     private String url;
 
+    @Column(name = "is_default")
     private boolean isDefault;
 
     @Column(nullable = false, updatable = false)
