@@ -53,14 +53,13 @@ public class PlayerController {
         List<Webradio> webradioList = webradioRepository.findAll();
 
         if (webradioId == null) {
-            for (Webradio webradio : webradioList) {
-                if (webradio.isDefault())
-                    url = webradio.getUrl();
-            }
+            url = getWebradioUrl(webradioList);
         } else {
             for (Webradio webradio : webradioList) {
                 if (webradio.isDefault()){
                     if( webradio.getId().equals(webradioId)) {
+                        webradio.setDefault(true);
+                        webradioRepository.save(webradio);
                         url = webradio.getUrl();
                     } else {
                         webradio.setDefault(false);
@@ -74,6 +73,15 @@ public class PlayerController {
             }
         }
         return startPlayer(url, autoStopMinutes);
+    }
+
+    private String getWebradioUrl(List<Webradio> webradioList){
+        return  webradioList
+                .stream()
+                .filter(Webradio::isDefault)
+                .map(Webradio::<String>getUrl)
+                .findAny()                                     // If 'findAny' then return found
+                .orElse(null);
     }
 
     public String startPlayer(String url, Long autoStopMinutes) {

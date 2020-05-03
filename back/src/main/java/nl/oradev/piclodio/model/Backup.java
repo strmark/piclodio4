@@ -41,6 +41,4 @@ public class Backup {
     public void setBackupFile(String backupFile) {
         this.backupFile = backupFile;
     }
-
-
 }
