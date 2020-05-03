@@ -20,11 +20,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import javax.validation.Valid;
 import java.time.ZonedDateTime;
 import java.util.Date;
@@ -33,7 +36,6 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
-@RequestMapping("/alarms")
 public class AlarmController {
     private static final Logger logger = LoggerFactory.getLogger(AlarmController.class);
 
@@ -49,28 +51,27 @@ public class AlarmController {
         this.scheduler = scheduler;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping(path = "/alarms")
     public List<Alarm> getAllAlarm() {
         return alarmRepository.findAll();
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping(path = "/alarms")
     public Alarm createAlarm(@Valid @RequestBody Alarm alarm) {
         return alarmRepository.save(alarm);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping(path = "/alarms/{id}")
     public Alarm getAlarmById(@PathVariable(value = "id") Long alarmId) {
         return alarmRepository.findById(alarmId)
                 .orElseThrow(() -> new ResourceNotFoundException("Alarm", "id", alarmId));
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @PutMapping(path = "/alarms/{id}")
     public Alarm updateAlarm(@PathVariable(value = "id") Long alarmId,
-                                           @Valid @RequestBody Alarm alarmDetails) {
-
+                             @Valid @RequestBody Alarm alarmDetails) {
         //0 45 6 ? * MON,TUE,WED,THU,FRI *
-        String cronSchedule = "10 * * * * ?";
+        String cronSchedule;
         String cronDays = "";
         Alarm alarm = alarmRepository.findById(alarmId)
                 .orElseThrow(() -> new ResourceNotFoundException("Alarm", "id", alarmId));
@@ -85,42 +86,45 @@ public class AlarmController {
             cronDays = stringConcat(cronDays, "MON");
         alarm.setTuesday(alarmDetails.isTuesday());
         if (alarmDetails.isTuesday())
-            cronDays = stringConcat( cronDays ,"TUE");
+            cronDays = stringConcat(cronDays, "TUE");
         alarm.setWednesday(alarmDetails.isWednesday());
         if (alarmDetails.isWednesday())
-            cronDays = stringConcat( cronDays ,"WED");
+            cronDays = stringConcat(cronDays, "WED");
         alarm.setThursday(alarmDetails.isThursday());
         if (alarmDetails.isThursday())
-            cronDays = stringConcat( cronDays ,"THU");
+            cronDays = stringConcat(cronDays, "THU");
         alarm.setFriday(alarmDetails.isFriday());
         if (alarmDetails.isFriday())
-            cronDays = stringConcat( cronDays ,"FRI");
+            cronDays = stringConcat(cronDays, "FRI");
         alarm.setSaturday(alarmDetails.isSaturday());
         if (alarmDetails.isSaturday())
-            cronDays = stringConcat( cronDays ,"SAT");
+            cronDays = stringConcat(cronDays, "SAT");
         alarm.setSunday(alarmDetails.isSunday());
         if (alarmDetails.isSunday())
-            cronDays = stringConcat( cronDays ,"SUN");
-        alarm.setAuto_stop_minutes(alarmDetails.getAuto_stop_minutes());
+            cronDays = stringConcat(cronDays, "SUN");
+        alarm.setAutoStopMinutes(alarmDetails.getAutoStopMinutes());
         cronDays = cronDays + " *";
-        alarm.setIs_active(alarmDetails.isIs_active());
+        alarm.setActive(alarmDetails.isActive());
         alarm.setWebradio(alarmDetails.getWebradio());
         Alarm updatedAlarm = alarmRepository.save(alarm);
         cronSchedule = cronSchedule + cronDays;
 
         try {
-            Optional <Webradio> webradioOptional = webradioRepository.findById(alarmDetails.getWebradio());
-            Webradio webradio  = webradioOptional.get();
-            JobKey jobkey = new JobKey("Piclodio_"+alarmDetails.getWebradio(), "Alarm-jobs");
-            if (scheduler.checkExists(jobkey)){
+            Optional<Webradio> webradioOptional = webradioRepository.findById(alarmDetails.getWebradio());
+            Webradio webradio = null;
+            if (webradioOptional.isPresent()) {
+                webradio = webradioOptional.get();
+            }
+            JobKey jobkey = new JobKey("Piclodio_" + alarmDetails.getWebradio(), "Alarm-jobs");
+            if (scheduler.checkExists(jobkey)) {
                 logger.info("Already exists");
                 scheduler.deleteJob(jobkey);
             }
-            if (alarmDetails.isIs_active()) {
+            if (alarmDetails.isActive()) {
                 //JobDetail jobDetail = buildJobDetail(alarmDetails.getName()+'_'+alarmDetails.getWebradio()
                 JobDetail jobDetail = buildJobDetail("Piclodio_" + alarmDetails.getWebradio()
                         , alarmDetails.getWebradio()
-                        , (long) alarmDetails.getAuto_stop_minutes()
+                        , (long) alarmDetails.getAutoStopMinutes()
                         , webradio.getUrl());
 
                 Trigger trigger = buildJobTrigger(jobDetail, cronSchedule, ZonedDateTime.now());
@@ -139,14 +143,14 @@ public class AlarmController {
         return updatedAlarm;
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteAlarm(@PathVariable(value = "id") Long alarmId) {
+    @DeleteMapping(path = "/alerm/{id}")
+    public ResponseEntity<Long> deleteAlarm(@PathVariable(value = "id") Long alarmId) {
         Alarm alarm = alarmRepository.findById(alarmId)
                 .orElseThrow(() -> new ResourceNotFoundException("Alarm", "id", alarmId));
 
         try {
-            JobKey jobkey = new JobKey("Piclodio_"+alarm.getWebradio(), "Alarm-jobs");
-            if (scheduler.checkExists(jobkey)){
+            JobKey jobkey = new JobKey("Piclodio_" + alarm.getWebradio(), "Alarm-jobs");
+            if (scheduler.checkExists(jobkey)) {
                 logger.info("Delete schedule");
                 scheduler.deleteJob(jobkey);
             }
@@ -158,7 +162,7 @@ public class AlarmController {
         return ResponseEntity.ok().build();
     }
 
-    private String stringConcat(String cronDays, String day){
+    private String stringConcat(String cronDays, String day) {
         if (cronDays.isEmpty())
             return day;
         else

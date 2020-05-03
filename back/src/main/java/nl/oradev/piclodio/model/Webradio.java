@@ -34,7 +34,7 @@ public class Webradio {
     @NotBlank
     private String url;
 
-    private boolean is_default;
+    private boolean isDefault;
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -86,7 +86,7 @@ public class Webradio {
         this.updatedAt = updatedAt;
     }
 
-    public boolean isIs_default() { return is_default; }
+    public boolean isDefault() { return isDefault; }
 
-    public void setIs_default(boolean is_default) { this.is_default = is_default; }
+    public void setDefault(boolean aDefault) { this.isDefault = aDefault; }
 }

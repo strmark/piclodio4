@@ -97,7 +97,7 @@ public class Audio {
                 }
             }
         }
-        return null;
+        return false;
     }
 
     public static Line getSpeakerOutputLine() {

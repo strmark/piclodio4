@@ -39,8 +39,8 @@ public class Alarm {
     private boolean sunday;
     private int     hour;
     private int     minute;
-    private int     auto_stop_minutes;
-    private boolean is_active;
+    private int autoStopMinutes;
+    private boolean isActive;
     private long webradio;
 
     public long getWebradio() { return webradio; }
@@ -125,17 +125,17 @@ public class Alarm {
         this.minute = minute;
     }
 
-    public int getAuto_stop_minutes() {
-        return auto_stop_minutes;
+    public int getAutoStopMinutes() {
+        return autoStopMinutes;
     }
 
-    public void setAuto_stop_minutes(int auto_stop_minutes) {
-        this.auto_stop_minutes = auto_stop_minutes;
+    public void setAutoStopMinutes(int autoStopMinutes) {
+        this.autoStopMinutes = autoStopMinutes;
     }
 
-    public boolean isIs_active() { return is_active; }
+    public boolean isActive() { return isActive; }
 
-    public void setIs_active(boolean is_active) { this.is_active = is_active; }
+    public void setActive(boolean active) { this.isActive = active; }
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -45,20 +46,20 @@ public class WebradioController {
 
     @PutMapping("/webradio/{id}")
     public Webradio updateWebradio(@PathVariable(value = "id") Long webradioId,
-                                           @Valid @RequestBody Webradio webradioDetails) {
+                                   @Valid @RequestBody Webradio webradioDetails) {
 
         Webradio webradio = webradioRepository.findById(webradioId)
                 .orElseThrow(() -> new ResourceNotFoundException("Webradio", "id", webradioId));
 
         webradio.setName(webradioDetails.getName());
         webradio.setUrl(webradioDetails.getUrl());
-        webradio.setIs_default(webradio.isIs_default());
+        webradio.setDefault(webradio.isDefault());
 
         return webradioRepository.save(webradio);
     }
 
     @DeleteMapping("/webradio/{id}")
-    public ResponseEntity<?> deleteWebradio(@PathVariable(value = "id") Long webradioId) {
+    public ResponseEntity<Long> deleteWebradio(@PathVariable(value = "id") Long webradioId) {
         Webradio webradio = webradioRepository.findById(webradioId)
                 .orElseThrow(() -> new ResourceNotFoundException("Webradio", "id", webradioId));
 
