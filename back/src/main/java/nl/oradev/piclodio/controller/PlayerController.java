@@ -59,13 +59,14 @@ public class PlayerController {
             }
         } else {
             for (Webradio webradio : webradioList) {
-                if (webradio.isDefault() && webradio.getId().equals(webradioId))
-                    url = webradio.getUrl();
-                if (webradio.isDefault() && !webradio.getId().equals(webradioId)) {
-                    webradio.setDefault(false);
-                    webradioRepository.save(webradio);
-                }
-                if (!webradio.isDefault() && webradio.getId().equals(webradioId)) {
+                if (webradio.isDefault()){
+                    if( webradio.getId().equals(webradioId)) {
+                        url = webradio.getUrl();
+                    } else {
+                        webradio.setDefault(false);
+                        webradioRepository.save(webradio);
+                    }
+                } else if ( webradio.getId().equals(webradioId)) {
                     webradio.setDefault(true);
                     webradioRepository.save(webradio);
                     url = webradio.getUrl();

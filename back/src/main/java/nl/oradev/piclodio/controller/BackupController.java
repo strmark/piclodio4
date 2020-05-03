@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 public class BackupController {
 
-    final private static String TEMP_FILE = "/tmp/backup_mp3";
+    private static final String TEMP_FILE = "/tmp/backup_mp3";
 
     private BackupRepository backupRepository;
 
@@ -41,10 +41,9 @@ public class BackupController {
         File dir = new File(TEMP_FILE);
         if (dir.isDirectory()) {
             File serverFile = new File(dir, fileName);
-            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-            stream.write(file.getBytes());
-            stream.close();
-
+            try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile))) {
+               stream.write(file.getBytes());
+            }
         }
         List<Backup> backupList = backupRepository.findAll();
         for (Backup backup : backupList) {

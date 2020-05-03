@@ -136,7 +136,6 @@ public class AlarmController {
             }
         } catch (SchedulerException ex) {
             logger.error("Error scheduling Alarm", ex);
-
             ScheduleAlarmResponse scheduleAlarmResponse = new ScheduleAlarmResponse(false,
                     "Error scheduling Alarm. Please try later!");
         }
