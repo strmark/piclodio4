@@ -67,7 +67,7 @@ public class VlcPlayer {
                     }
                 }
             } catch (IOException e) {
-                logger.error("Exceptio in Wait for answer: {}", e.getMessage());
+                logger.error("Exception in Wait for answer: {}", e.getMessage());
             }
         }
         return line;

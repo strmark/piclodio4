@@ -38,6 +38,9 @@ import java.util.Optional;
 @RestController
 public class AlarmController {
     private static final Logger logger = LoggerFactory.getLogger(AlarmController.class);
+    private static final String ALARM = "Alarm";
+    private static final String ALARM_JOBS= "Alarm-jobs";
+    private static final String PICLODIO = "Piclodio_";
 
     private AlarmRepository alarmRepository;
 
@@ -64,7 +67,7 @@ public class AlarmController {
     @GetMapping(path = "/alarms/{id}")
     public Alarm getAlarmById(@PathVariable(value = "id") Long alarmId) {
         return alarmRepository.findById(alarmId)
-                .orElseThrow(() -> new ResourceNotFoundException("Alarm", "id", alarmId));
+                .orElseThrow(() -> new ResourceNotFoundException(ALARM, "id", alarmId));
     }
 
     @PutMapping(path = "/alarms/{id}")
@@ -74,7 +77,7 @@ public class AlarmController {
         String cronSchedule;
         String cronDays = "";
         Alarm alarm = alarmRepository.findById(alarmId)
-                .orElseThrow(() -> new ResourceNotFoundException("Alarm", "id", alarmId));
+                .orElseThrow(() -> new ResourceNotFoundException(ALARM, "id", alarmId));
 
         alarm.setMinute(alarmDetails.getMinute());
         cronSchedule = "0 " + alarmDetails.getMinute() + " ";
@@ -115,28 +118,29 @@ public class AlarmController {
             if (webradioOptional.isPresent()) {
                 webradio = webradioOptional.get();
             }
-            JobKey jobkey = new JobKey("Piclodio_" + alarmDetails.getWebradio(), "Alarm-jobs");
+
+            JobKey jobkey = new JobKey(PICLODIO + alarmDetails.getWebradio(), ALARM_JOBS);
             if (scheduler.checkExists(jobkey)) {
                 logger.info("Already exists");
                 scheduler.deleteJob(jobkey);
             }
             if (alarmDetails.isActive()) {
                 //JobDetail jobDetail = buildJobDetail(alarmDetails.getName()+'_'+alarmDetails.getWebradio()
-                JobDetail jobDetail = buildJobDetail("Piclodio_" + alarmDetails.getWebradio()
+                JobDetail jobDetail = buildJobDetail(PICLODIO + alarmDetails.getWebradio()
                         , alarmDetails.getWebradio()
                         , (long) alarmDetails.getAutoStopMinutes()
-                        , webradio.getUrl());
+                        , webradio!=null?webradio.getUrl():"dummy");
 
                 Trigger trigger = buildJobTrigger(jobDetail, cronSchedule, ZonedDateTime.now());
 
                 scheduler.scheduleJob(jobDetail, trigger);
 
-                ScheduleAlarmResponse scheduleAlarmResponse = new ScheduleAlarmResponse(true,
+                new ScheduleAlarmResponse(true,
                         jobDetail.getKey().getName(), jobDetail.getKey().getGroup(), "Alarm Scheduled Successfully!");
             }
         } catch (SchedulerException ex) {
             logger.error("Error scheduling Alarm", ex);
-            ScheduleAlarmResponse scheduleAlarmResponse = new ScheduleAlarmResponse(false,
+            new ScheduleAlarmResponse(false,
                     "Error scheduling Alarm. Please try later!");
         }
         return updatedAlarm;
@@ -145,10 +149,10 @@ public class AlarmController {
     @DeleteMapping(path = "/alerm/{id}")
     public ResponseEntity<Long> deleteAlarm(@PathVariable(value = "id") Long alarmId) {
         Alarm alarm = alarmRepository.findById(alarmId)
-                .orElseThrow(() -> new ResourceNotFoundException("Alarm", "id", alarmId));
+                .orElseThrow(() -> new ResourceNotFoundException(ALARM, "id", alarmId));
 
         try {
-            JobKey jobkey = new JobKey("Piclodio_" + alarm.getWebradio(), "Alarm-jobs");
+            JobKey jobkey = new JobKey("PICLODIO" + alarm.getWebradio(), ALARM_JOBS);
             if (scheduler.checkExists(jobkey)) {
                 logger.info("Delete schedule");
                 scheduler.deleteJob(jobkey);
@@ -176,7 +180,7 @@ public class AlarmController {
         jobDataMap.put("url", url);
 
         return JobBuilder.newJob(AlarmJob.class)
-                .withIdentity(alarmName, "Alarm-jobs")
+                .withIdentity(alarmName, ALARM_JOBS)
                 .withDescription("Alarm Job")
                 .usingJobData(jobDataMap)
                 .storeDurably(true)

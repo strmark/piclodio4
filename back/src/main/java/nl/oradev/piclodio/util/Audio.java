@@ -188,58 +188,17 @@ public class Audio {
         }
     }
 
-    public static String getHierarchyInfo() {
-        StringBuilder sb = new StringBuilder();
-        for (Mixer mixer : getMixers()) {
-            sb.append("Mixer: ").append(toString(mixer)).append("\n");
-
-            for (Line line : getAvailableOutputLines(mixer)) {
-                sb.append("  OUT: ").append(toString(line)).append("\n");
-                boolean opened = open(line);
-                for (Control control : line.getControls()) {
-                    sb.append("    Control: ").append(toString(control)).append("\n");
-                    if (control instanceof CompoundControl) {
-                        CompoundControl compoundControl = (CompoundControl) control;
-                        for (Control subControl : compoundControl.getMemberControls()) {
-                            sb.append("      Sub-Control: ").append(toString(subControl)).append("\n");
-                        }
-                    }
-                }
-                if (opened) {
-                    line.close();
-                }
-            }
-
-            for (Line line : getAvailableOutputLines(mixer)) {
-                sb.append("  IN: ").append(toString(line)).append("\n");
-                boolean opened = open(line);
-                for (Control control : line.getControls()) {
-                    sb.append("    Control: ").append(toString(control)).append("\n");
-                    if (control instanceof CompoundControl) {
-                        CompoundControl compoundControl = (CompoundControl) control;
-                        for (Control subControl : compoundControl.getMemberControls()) {
-                            sb.append("      Sub-Control: ").append(toString(subControl)).append("\n");
-                        }
-                    }
-                }
-                if (opened) {
-                    line.close();
-                }
-            }
-            sb.append("\n");
-        }
-        return sb.toString();
-    }
-
     public static boolean open(Line line) {
         if (!line.isOpen()) {
             try {
                 line.open();
+                return true;
             } catch (LineUnavailableException ex) {
                 return false;
             }
+        } else {
+            return true;
         }
-        return false;
     }
 
     public static String toString(Control control) {
