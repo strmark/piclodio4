@@ -34,7 +34,7 @@
           </td>
           <td class="text-center">
             <button (click)="switchActiveAlarmClock(alarmclock)" type="button" class="btn btn-{{ alarmclock.is_active ? 'success' : 'default' }} btn-md">
-              <span class="fa {{ alarmclock.is_active ? 'fa-check' : 'fa-ban' }}"></span>
+              <span class="fa {{ alarmclock.active ? 'fa-check' : 'fa-ban' }}"></span>
             </button>
           </td>
           <td class="text-center">
