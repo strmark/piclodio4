@@ -79,8 +79,6 @@ public class AlarmDTO {
         this.webradioId = webradioId;
     }
 
-
-
     public String getName() {
         return name;
     }
