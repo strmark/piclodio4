@@ -21,8 +21,8 @@ export class AlarmClockComponent implements OnInit {
 
   maxAutoStopMinute: number[];
 
-  newAlarmClock: Boolean;
-  message: String;
+  newAlarmClock: boolean;
+  message: string;
   alarmClockToDelete: AlarmClock;
 
   constructor( private alarmClockService: AlarmClockService
@@ -40,7 +40,9 @@ export class AlarmClockComponent implements OnInit {
   create_range(maxVal: number): number[] {
     var x = [];
     var i = 0;
-    while (x.push(i++) <= maxVal) {};
+    for (i=0; i<=maxVal; i++) {
+      x.push(i)
+    }
     return x;
   }
 
@@ -60,7 +62,7 @@ export class AlarmClockComponent implements OnInit {
     this.alarmClockToDelete = alarmclock;
     this.modalService.open(confDel, {ariaLabelledBy: 'modal-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
-      if (result = 'yes click'){
+      if (result == 'yes click'){
         console.log("Closed  with " + this.closeResult);
         this.deleteAlarmClock(this.alarmClockToDelete);
       }
@@ -144,7 +146,7 @@ export class AlarmClockComponent implements OnInit {
     }
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
-      if (result = 'Save click'){
+      if (result == 'Save click'){
         console.log("Closed  with " + this.closeResult);
         this.save();
       }

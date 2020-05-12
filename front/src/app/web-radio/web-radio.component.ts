@@ -41,7 +41,7 @@ export class WebRadioComponent implements OnInit {
     this.webRadioToDelete = webradio;
     this.modalService.open(confDel, {ariaLabelledBy: 'modal-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
-      if (result = 'yes click'){ 
+      if (result == 'yes click'){ 
         console.log("Closed  with " + this.closeResult);
         this.deleteWebRadio(this.webRadioToDelete);
       }
@@ -108,7 +108,7 @@ export class WebRadioComponent implements OnInit {
     }
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
-      if (result = 'Save click'){ 
+      if (result == 'Save click'){ 
         console.log("Closed  with " + this.closeResult);
         this.save();
       }
