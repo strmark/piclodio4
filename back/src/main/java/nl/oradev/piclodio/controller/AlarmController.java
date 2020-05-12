@@ -1,5 +1,6 @@
 package nl.oradev.piclodio.controller;
 
+import nl.oradev.piclodio.dto.AlarmDTO;
 import nl.oradev.piclodio.exception.ResourceNotFoundException;
 import nl.oradev.piclodio.job.AlarmJob;
 import nl.oradev.piclodio.model.Alarm;
@@ -60,7 +61,21 @@ public class AlarmController {
     }
 
     @PostMapping(path = "/alarms")
-    public Alarm createAlarm(@Valid @RequestBody Alarm alarm) {
+    public Alarm createAlarm(@Valid @RequestBody AlarmDTO alarmDTO) {
+        Alarm alarm = new Alarm();
+        alarm.setMinute(alarmDTO.getMinute());
+        alarm.setHour(alarmDTO.getHour());
+        alarm.setName(alarmDTO.getName());
+        alarm.setMonday(alarmDTO.isMonday());
+        alarm.setTuesday(alarmDTO.isTuesday());
+        alarm.setWednesday(alarmDTO.isWednesday());
+        alarm.setThursday(alarmDTO.isThursday());
+        alarm.setFriday(alarmDTO.isFriday());
+        alarm.setSaturday(alarmDTO.isSaturday());
+        alarm.setSunday(alarmDTO.isSunday());
+        alarm.setAutoStopMinutes(alarmDTO.getAutoStopMinutes());
+        alarm.setActive(alarmDTO.isActive());
+        alarm.setWebradio(alarmDTO.getWebradioId());
         return alarmRepository.save(alarm);
     }
 
@@ -72,7 +87,7 @@ public class AlarmController {
 
     @PutMapping(path = "/alarms/{id}")
     public Alarm updateAlarm(@PathVariable(value = "id") Long alarmId,
-                             @Valid @RequestBody Alarm alarmDetails) {
+                             @Valid @RequestBody AlarmDTO alarmDetails) {
         //0 45 6 ? * MON,TUE,WED,THU,FRI *
         String cronSchedule;
         String cronDays = "";
@@ -108,26 +123,26 @@ public class AlarmController {
         alarm.setAutoStopMinutes(alarmDetails.getAutoStopMinutes());
         cronDays = cronDays + " *";
         alarm.setActive(alarmDetails.isActive());
-        alarm.setWebradio(alarmDetails.getWebradio());
+        alarm.setWebradio(alarmDetails.getWebradioId());
         Alarm updatedAlarm = alarmRepository.save(alarm);
         cronSchedule = cronSchedule + cronDays;
 
         try {
-            Optional<Webradio> webradioOptional = webradioRepository.findById(alarmDetails.getWebradio());
+            Optional<Webradio> webradioOptional = webradioRepository.findById(alarmDetails.getWebradioId());
             Webradio webradio = null;
             if (webradioOptional.isPresent()) {
                 webradio = webradioOptional.get();
             }
 
-            JobKey jobkey = new JobKey(PICLODIO + alarmDetails.getWebradio(), ALARM_JOBS);
+            JobKey jobkey = new JobKey(PICLODIO + alarmDetails.getWebradioId(), ALARM_JOBS);
             if (scheduler.checkExists(jobkey)) {
                 logger.info("Already exists");
                 scheduler.deleteJob(jobkey);
             }
             if (alarmDetails.isActive()) {
                 //JobDetail jobDetail = buildJobDetail(alarmDetails.getName()+'_'+alarmDetails.getWebradio()
-                JobDetail jobDetail = buildJobDetail(PICLODIO + alarmDetails.getWebradio()
-                        , alarmDetails.getWebradio()
+                JobDetail jobDetail = buildJobDetail(PICLODIO + alarmDetails.getWebradioId()
+                        , alarmDetails.getWebradioId()
                         , (long) alarmDetails.getAutoStopMinutes()
                         , webradio!=null?webradio.getUrl():"dummy");
 
@@ -146,7 +161,7 @@ public class AlarmController {
         return updatedAlarm;
     }
 
-    @DeleteMapping(path = "/alerm/{id}")
+    @DeleteMapping(path = "/alarms/{id}")
     public ResponseEntity<Long> deleteAlarm(@PathVariable(value = "id") Long alarmId) {
         Alarm alarm = alarmRepository.findById(alarmId)
                 .orElseThrow(() -> new ResourceNotFoundException(ALARM, "id", alarmId));

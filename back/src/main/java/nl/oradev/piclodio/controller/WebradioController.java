@@ -1,5 +1,6 @@
 package nl.oradev.piclodio.controller;
 
+import nl.oradev.piclodio.dto.WebradioDTO;
 import nl.oradev.piclodio.exception.ResourceNotFoundException;
 import nl.oradev.piclodio.model.Webradio;
 import nl.oradev.piclodio.repository.WebradioRepository;
@@ -36,7 +37,12 @@ public class WebradioController {
     }
 
     @PostMapping("/webradio")
-    public Webradio createWebradio(@Valid @RequestBody Webradio webradio) {
+    public Webradio createWebradio(@Valid @RequestBody WebradioDTO webradioDTO) {
+        Webradio webradio = new Webradio();
+        webradio.setId(webradioDTO.getId());
+        webradio.setName(webradioDTO.getName());
+        webradio.setDefault(webradioDTO.isDefault());
+        webradio.setUrl(webradioDTO.getUrl());
         return webradioRepository.save(webradio);
     }
 
@@ -48,14 +54,14 @@ public class WebradioController {
 
     @PutMapping("/webradio/{id}")
     public Webradio updateWebradio(@PathVariable(value = "id") Long webradioId,
-                                   @Valid @RequestBody Webradio webradioDetails) {
+                                   @Valid @RequestBody WebradioDTO webradioDTO) {
 
         Webradio webradio = webradioRepository.findById(webradioId)
                 .orElseThrow(() -> new ResourceNotFoundException(WEBRADIO, "id", webradioId));
 
-        webradio.setName(webradioDetails.getName());
-        webradio.setUrl(webradioDetails.getUrl());
-        webradio.setDefault(webradio.isDefault());
+        webradio.setName(webradioDTO.getName());
+        webradio.setUrl(webradioDTO.getUrl());
+        webradio.setDefault(webradioDTO.isDefault());
 
         return webradioRepository.save(webradio);
     }

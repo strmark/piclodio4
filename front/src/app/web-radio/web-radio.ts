@@ -2,7 +2,7 @@ export class WebRadio {
     id: number;
     name: string = '';
     url: string = '';
-    is_default: boolean = false;
+    default: boolean = false;
 
     constructor(values: Object = {}) {
         Object.assign(this, values);

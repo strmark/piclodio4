@@ -26,14 +26,14 @@
             <div><span class="{{ alarmclock.sunday ? 'day-on' : 'day-off' }}">Su</span></div>
           </td>
           <td class="text-center">{{ alarmclock.hour < 10 ? '0' : '' }}{{alarmclock.hour}}:{{ alarmclock.minute < 10 ? '0' : '' }}{{alarmclock.minute}}</td>
-          <td class="text-center">{{alarmclock.auto_stop_minutes}}</td>
+          <td class="text-center">{{alarmclock.autoStopMinutes}}</td>
           <td class="text-center">
           <button class="btn btn-default btn-md" (click)="open(content,alarmclock)">
             <span class="fa fa-edit"></span>
           </button>
           </td>
           <td class="text-center">
-            <button (click)="switchActiveAlarmClock(alarmclock)" type="button" class="btn btn-{{ alarmclock.is_active ? 'success' : 'default' }} btn-md">
+            <button (click)="switchActiveAlarmClock(alarmclock)" type="button" class="btn btn-{{ alarmclock.isActive ? 'success' : 'default' }} btn-md">
               <span class="fa {{ alarmclock.active ? 'fa-check' : 'fa-ban' }}"></span>
             </button>
           </td>
@@ -88,16 +88,16 @@
            <div class="row">
              <div class="col-md-3"> <label for="autostop">Auto Stop</label> </div>
              <div class="col-md-9">
-               <select class="form-control" id="auto_stop_minutes" required [(ngModel)]="alarmclock.auto_stop_minutes" name="auto_stop_minutes">
-               <option *ngFor="let minute of max_auto_stop_minute" [ngValue]="minute" >{{minute}}</option>
+               <select class="form-control" id="autoStopMinutes" required [(ngModel)]="alarmclock.autoStopMinutes" name="autoStopMinutes">
+               <option *ngFor="let minute of maxAutoStopMinute" [ngValue]="minute" >{{minute}}</option>
                </select>
             </div>
            </div>
            <div class="row">
               <div class="col-md-3"> <label for="webradio">Internet Radio</label> </div>
               <div class="col-md-9">
-                 <select id="webradio" required [(ngModel)]="alarmclock.webradio" name="webradio">
-                 <option *ngFor="let webradio of webradios" [ngValue]="webradio.id" >{{webradio.name}}</option>
+                 <select [(ngModel)]="alarmclock.webradio" id="alarmclock.webradio.id" name="alarmclock.webradio.name" >
+                    <option *ngFor="let webradio of webradios" [ngValue]="webradio.id" selected="alarmclock.webradio.id == webradio.id" >{{webradio.name}}</option>
                  </select>
               </div>
            </div>

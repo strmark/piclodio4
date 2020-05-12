@@ -19,7 +19,7 @@ export class AlarmClockComponent implements OnInit {
 
   timePicker = {hour: 12, minute: 30};
 
-  max_auto_stop_minute: number[];
+  maxAutoStopMinute: number[];
 
   newAlarmClock: Boolean;
   message: String;
@@ -30,7 +30,7 @@ export class AlarmClockComponent implements OnInit {
              , private modalService: NgbModal
              ) {
     this.webRadioService.getAllWebRadios().subscribe(this.setWebRadios.bind(this));
-    this.max_auto_stop_minute = this.create_range(180);
+    this.maxAutoStopMinute = this.create_range(180);
   }
 
   ngOnInit() {

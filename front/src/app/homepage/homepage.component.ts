@@ -46,7 +46,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
 
 
   /**
-   * Filter the received list of webradios to keep only the active one (is_default)
+   * Filter the received list of webradios to keep only the active one (isDefault)
    */
   filterDefaultWebRadio(webradios: WebRadio[]) {
     this.all_webradios = webradios;
