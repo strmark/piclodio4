@@ -25,7 +25,7 @@ public class AlarmDTO {
     private int minute;
     private int autoStopMinutes;
     private boolean isActive;
-    private long webradioId;
+    private long webradio;
 
     public void setName(String name) {
         this.name = name;
@@ -75,8 +75,8 @@ public class AlarmDTO {
         isActive = active;
     }
 
-    public void setWebradioId(long webradioId) {
-        this.webradioId = webradioId;
+    public void setWebradio(long webradio) {
+        this.webradio = webradio;
     }
 
     public String getName() {
@@ -127,8 +127,8 @@ public class AlarmDTO {
         return isActive;
     }
 
-    public long getWebradioId() {
-        return webradioId;
+    public long getWebradio() {
+        return webradio;
     }
 
 }

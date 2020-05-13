@@ -97,9 +97,9 @@
            <div class="row">
               <div class="col-md-3"> <label for="webradio">Internet Radio</label> </div>
               <div class="col-md-9">
-                <select id="webradio" required [(ngModel)]="alarmclock.webradio" name="webradio">
-                  <option *ngFor="let webradio of webradios" [ngValue]="webradio.id" >{{webradio.name}}</option>
-                 </select>
+                <select id="webradio" required [(ngModel)]="alarmclock.webradio" name="webradio.name" >
+                <option *ngFor="let webradio of webradios" [ngValue]="webradio.id" >{{webradio.name}}</option>
+                </select>
               </div>
            </div>
         </div>
