@@ -14,7 +14,7 @@ export class AlarmClock {
     minute: number;
     autoStopMinutes: number;
     active: boolean = false;
-    webradio: WebRadio;
+    webradioId: number;
 
     constructor(values: Object = {}) {
         Object.assign(this, values);
