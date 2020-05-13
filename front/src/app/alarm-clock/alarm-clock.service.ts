@@ -37,9 +37,6 @@ export class AlarmClockService {
 
   updateAlarmClockById(id: number, values: Object = {}): Observable <AlarmClock> {        
     let body = JSON.stringify(values); // Stringify payload
-    let headers = new Headers({
-      'Content-Type': 'application/json'
-    });
     return this.httpService.put<AlarmClock>(this.baseUrl + "/alarms/" + id, body, {
       headers: new HttpHeaders().set('Content-Type', 'application/json'),
     } );

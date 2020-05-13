@@ -16,5 +16,4 @@ public class Player {
         this.playerStatus = playerStatus;
     }
 
-
 }

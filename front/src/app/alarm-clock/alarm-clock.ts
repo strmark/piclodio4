@@ -12,8 +12,8 @@ export class AlarmClock {
     sunday: boolean  = false;
     hour: number;
     minute: number;
-    auto_stop_minutes: number;
-    is_active: boolean = false;
+    autoStopMinutes: number;
+    active: boolean = false;
     webradio: WebRadio;
 
     constructor(values: Object = {}) {

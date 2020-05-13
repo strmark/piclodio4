@@ -1,5 +1,6 @@
 package nl.oradev.piclodio.controller;
 
+import nl.oradev.piclodio.dto.AlarmDTO;
 import nl.oradev.piclodio.exception.ResourceNotFoundException;
 import nl.oradev.piclodio.job.AlarmJob;
 import nl.oradev.piclodio.model.Alarm;
@@ -20,11 +21,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import javax.validation.Valid;
 import java.time.ZonedDateTime;
 import java.util.Date;
@@ -33,9 +37,11 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
-@RequestMapping("/alarms")
 public class AlarmController {
     private static final Logger logger = LoggerFactory.getLogger(AlarmController.class);
+    private static final String ALARM = "Alarm";
+    private static final String ALARM_JOBS= "Alarm-jobs";
+    private static final String PICLODIO = "Piclodio_";
 
     private AlarmRepository alarmRepository;
 
@@ -49,31 +55,44 @@ public class AlarmController {
         this.scheduler = scheduler;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping(path = "/alarms")
     public List<Alarm> getAllAlarm() {
         return alarmRepository.findAll();
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public Alarm createAlarm(@Valid @RequestBody Alarm alarm) {
+    @PostMapping(path = "/alarms")
+    public Alarm createAlarm(@Valid @RequestBody AlarmDTO alarmDTO) {
+        Alarm alarm = new Alarm();
+        alarm.setMinute(alarmDTO.getMinute());
+        alarm.setHour(alarmDTO.getHour());
+        alarm.setName(alarmDTO.getName());
+        alarm.setMonday(alarmDTO.isMonday());
+        alarm.setTuesday(alarmDTO.isTuesday());
+        alarm.setWednesday(alarmDTO.isWednesday());
+        alarm.setThursday(alarmDTO.isThursday());
+        alarm.setFriday(alarmDTO.isFriday());
+        alarm.setSaturday(alarmDTO.isSaturday());
+        alarm.setSunday(alarmDTO.isSunday());
+        alarm.setAutoStopMinutes(alarmDTO.getAutoStopMinutes());
+        alarm.setActive(alarmDTO.isActive());
+        alarm.setWebradio(alarmDTO.getWebradioId());
         return alarmRepository.save(alarm);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping(path = "/alarms/{id}")
     public Alarm getAlarmById(@PathVariable(value = "id") Long alarmId) {
         return alarmRepository.findById(alarmId)
-                .orElseThrow(() -> new ResourceNotFoundException("Alarm", "id", alarmId));
+                .orElseThrow(() -> new ResourceNotFoundException(ALARM, "id", alarmId));
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @PutMapping(path = "/alarms/{id}")
     public Alarm updateAlarm(@PathVariable(value = "id") Long alarmId,
-                                           @Valid @RequestBody Alarm alarmDetails) {
-
+                             @Valid @RequestBody AlarmDTO alarmDetails) {
         //0 45 6 ? * MON,TUE,WED,THU,FRI *
-        String cronSchedule = "10 * * * * ?";
+        String cronSchedule;
         String cronDays = "";
         Alarm alarm = alarmRepository.findById(alarmId)
-                .orElseThrow(() -> new ResourceNotFoundException("Alarm", "id", alarmId));
+                .orElseThrow(() -> new ResourceNotFoundException(ALARM, "id", alarmId));
 
         alarm.setMinute(alarmDetails.getMinute());
         cronSchedule = "0 " + alarmDetails.getMinute() + " ";
@@ -85,68 +104,71 @@ public class AlarmController {
             cronDays = stringConcat(cronDays, "MON");
         alarm.setTuesday(alarmDetails.isTuesday());
         if (alarmDetails.isTuesday())
-            cronDays = stringConcat( cronDays ,"TUE");
+            cronDays = stringConcat(cronDays, "TUE");
         alarm.setWednesday(alarmDetails.isWednesday());
         if (alarmDetails.isWednesday())
-            cronDays = stringConcat( cronDays ,"WED");
+            cronDays = stringConcat(cronDays, "WED");
         alarm.setThursday(alarmDetails.isThursday());
         if (alarmDetails.isThursday())
-            cronDays = stringConcat( cronDays ,"THU");
+            cronDays = stringConcat(cronDays, "THU");
         alarm.setFriday(alarmDetails.isFriday());
         if (alarmDetails.isFriday())
-            cronDays = stringConcat( cronDays ,"FRI");
+            cronDays = stringConcat(cronDays, "FRI");
         alarm.setSaturday(alarmDetails.isSaturday());
         if (alarmDetails.isSaturday())
-            cronDays = stringConcat( cronDays ,"SAT");
+            cronDays = stringConcat(cronDays, "SAT");
         alarm.setSunday(alarmDetails.isSunday());
         if (alarmDetails.isSunday())
-            cronDays = stringConcat( cronDays ,"SUN");
-        alarm.setAuto_stop_minutes(alarmDetails.getAuto_stop_minutes());
+            cronDays = stringConcat(cronDays, "SUN");
+        alarm.setAutoStopMinutes(alarmDetails.getAutoStopMinutes());
         cronDays = cronDays + " *";
-        alarm.setIs_active(alarmDetails.isIs_active());
-        alarm.setWebradio(alarmDetails.getWebradio());
+        alarm.setActive(alarmDetails.isActive());
+        alarm.setWebradio(alarmDetails.getWebradioId());
         Alarm updatedAlarm = alarmRepository.save(alarm);
         cronSchedule = cronSchedule + cronDays;
 
         try {
-            Optional <Webradio> webradioOptional = webradioRepository.findById(alarmDetails.getWebradio());
-            Webradio webradio  = webradioOptional.get();
-            JobKey jobkey = new JobKey("Piclodio_"+alarmDetails.getWebradio(), "Alarm-jobs");
-            if (scheduler.checkExists(jobkey)){
+            Optional<Webradio> webradioOptional = webradioRepository.findById(alarmDetails.getWebradioId());
+            Webradio webradio = null;
+            if (webradioOptional.isPresent()) {
+                webradio = webradioOptional.get();
+            }
+
+            JobKey jobkey = new JobKey(PICLODIO + alarmDetails.getWebradioId(), ALARM_JOBS);
+            if (scheduler.checkExists(jobkey)) {
                 logger.info("Already exists");
                 scheduler.deleteJob(jobkey);
             }
-            if (alarmDetails.isIs_active()) {
+            if (alarmDetails.isActive()) {
                 //JobDetail jobDetail = buildJobDetail(alarmDetails.getName()+'_'+alarmDetails.getWebradio()
-                JobDetail jobDetail = buildJobDetail("Piclodio_" + alarmDetails.getWebradio()
-                        , alarmDetails.getWebradio()
-                        , (long) alarmDetails.getAuto_stop_minutes()
-                        , webradio.getUrl());
+                JobDetail jobDetail = buildJobDetail(PICLODIO + alarmDetails.getWebradioId()
+                        , alarmDetails.getWebradioId()
+                        , (long) alarmDetails.getAutoStopMinutes()
+                        , webradio!=null?webradio.getUrl():"dummy");
 
                 Trigger trigger = buildJobTrigger(jobDetail, cronSchedule, ZonedDateTime.now());
 
                 scheduler.scheduleJob(jobDetail, trigger);
 
-                ScheduleAlarmResponse scheduleAlarmResponse = new ScheduleAlarmResponse(true,
+                new ScheduleAlarmResponse(true,
                         jobDetail.getKey().getName(), jobDetail.getKey().getGroup(), "Alarm Scheduled Successfully!");
             }
         } catch (SchedulerException ex) {
             logger.error("Error scheduling Alarm", ex);
-
-            ScheduleAlarmResponse scheduleAlarmResponse = new ScheduleAlarmResponse(false,
+            new ScheduleAlarmResponse(false,
                     "Error scheduling Alarm. Please try later!");
         }
         return updatedAlarm;
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteAlarm(@PathVariable(value = "id") Long alarmId) {
+    @DeleteMapping(path = "/alarms/{id}")
+    public ResponseEntity<Long> deleteAlarm(@PathVariable(value = "id") Long alarmId) {
         Alarm alarm = alarmRepository.findById(alarmId)
-                .orElseThrow(() -> new ResourceNotFoundException("Alarm", "id", alarmId));
+                .orElseThrow(() -> new ResourceNotFoundException(ALARM, "id", alarmId));
 
         try {
-            JobKey jobkey = new JobKey("Piclodio_"+alarm.getWebradio(), "Alarm-jobs");
-            if (scheduler.checkExists(jobkey)){
+            JobKey jobkey = new JobKey("PICLODIO" + alarm.getWebradio(), ALARM_JOBS);
+            if (scheduler.checkExists(jobkey)) {
                 logger.info("Delete schedule");
                 scheduler.deleteJob(jobkey);
             }
@@ -158,7 +180,7 @@ public class AlarmController {
         return ResponseEntity.ok().build();
     }
 
-    private String stringConcat(String cronDays, String day){
+    private String stringConcat(String cronDays, String day) {
         if (cronDays.isEmpty())
             return day;
         else
@@ -173,7 +195,7 @@ public class AlarmController {
         jobDataMap.put("url", url);
 
         return JobBuilder.newJob(AlarmJob.class)
-                .withIdentity(alarmName, "Alarm-jobs")
+                .withIdentity(alarmName, ALARM_JOBS)
                 .withDescription("Alarm Job")
                 .usingJobData(jobDataMap)
                 .storeDurably(true)

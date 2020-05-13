@@ -24,7 +24,7 @@ public class Backup {
     private Long id;
 
     @NotBlank
-    private String backup_file;
+    private String backupFile;
 
     public Long getId() {
         return id;
@@ -34,13 +34,11 @@ public class Backup {
         this.id = id;
     }
 
-    public String getBackup_file() {
-        return backup_file;
+    public String getBackupFile() {
+        return backupFile;
     }
 
-    public void setBackup_file(String backup_file) {
-        this.backup_file = backup_file;
+    public void setBackupFile(String backupFile) {
+        this.backupFile = backupFile;
     }
-
-
 }

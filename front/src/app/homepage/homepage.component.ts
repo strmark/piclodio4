@@ -46,13 +46,13 @@ export class HomepageComponent implements OnInit, OnDestroy {
 
 
   /**
-   * Filter the received list of webradios to keep only the active one (is_default)
+   * Filter the received list of webradios to keep only the active one (isDefault)
    */
   filterDefaultWebRadio(webradios: WebRadio[]) {
     this.all_webradios = webradios;
     console.log(webradios);
     this.active_webradios = this.all_webradios.filter(
-      webradio => webradio.is_default === true
+      webradio => webradio.default === true
     )
   }
 
@@ -69,7 +69,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
 
   setActiveAlarmClocks(alarmclocks: AlarmClock[]){
     this.active_alarms = alarmclocks.filter(
-      alarms => alarms.is_active === true
+      alarms => alarms.active === true
     )
   }
 }

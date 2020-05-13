@@ -16,7 +16,7 @@ export class SystemDateService {
     // GET /alarmclocks
 
     getSystemDate(): Observable < Date > {
-        var datejsonObservable: Observable <String> = this.httpService.get<string>(this.baseUrl + "/systemdate/");
+        var datejsonObservable: Observable <string> = this.httpService.get<string>(this.baseUrl + "/systemdate/");
         var dateObservable: Observable <Date> = datejsonObservable.pipe(map((date: string) => new Date(date)));
         //return this.dateJson(datejsonObservable);
         return dateObservable;
