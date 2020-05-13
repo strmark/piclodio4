@@ -75,7 +75,7 @@ public class AlarmController {
         alarm.setSunday(alarmDTO.isSunday());
         alarm.setAutoStopMinutes(alarmDTO.getAutoStopMinutes());
         alarm.setActive(alarmDTO.isActive());
-        alarm.setWebradio(alarmDTO.getWebradioId());
+        alarm.setWebradio(alarmDTO.getWebradio());
         return alarmRepository.save(alarm);
     }
 
@@ -123,26 +123,26 @@ public class AlarmController {
         alarm.setAutoStopMinutes(alarmDetails.getAutoStopMinutes());
         cronDays = cronDays + " *";
         alarm.setActive(alarmDetails.isActive());
-        alarm.setWebradio(alarmDetails.getWebradioId());
+        alarm.setWebradio(alarmDetails.getWebradio());
         Alarm updatedAlarm = alarmRepository.save(alarm);
         cronSchedule = cronSchedule + cronDays;
 
         try {
-            Optional<Webradio> webradioOptional = webradioRepository.findById(alarmDetails.getWebradioId());
+            Optional<Webradio> webradioOptional = webradioRepository.findById(alarmDetails.getWebradio());
             Webradio webradio = null;
             if (webradioOptional.isPresent()) {
                 webradio = webradioOptional.get();
             }
 
-            JobKey jobkey = new JobKey(PICLODIO + alarmDetails.getWebradioId(), ALARM_JOBS);
+            JobKey jobkey = new JobKey(PICLODIO + alarmDetails.getWebradio(), ALARM_JOBS);
             if (scheduler.checkExists(jobkey)) {
                 logger.info("Already exists");
                 scheduler.deleteJob(jobkey);
             }
             if (alarmDetails.isActive()) {
                 //JobDetail jobDetail = buildJobDetail(alarmDetails.getName()+'_'+alarmDetails.getWebradio()
-                JobDetail jobDetail = buildJobDetail(PICLODIO + alarmDetails.getWebradioId()
-                        , alarmDetails.getWebradioId()
+                JobDetail jobDetail = buildJobDetail(PICLODIO + alarmDetails.getWebradio()
+                        , alarmDetails.getWebradio()
                         , (long) alarmDetails.getAutoStopMinutes()
                         , webradio!=null?webradio.getUrl():"dummy");
 
