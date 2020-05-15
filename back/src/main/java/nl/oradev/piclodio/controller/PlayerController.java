@@ -6,11 +6,7 @@ import nl.oradev.piclodio.repository.WebradioRepository;
 import nl.oradev.piclodio.util.VlcPlayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -39,10 +35,11 @@ public class PlayerController {
         logger.info("Webradio: {}", player.getWebradio());
         logger.info("Status: {}", player.getStatus());
 
-        if (player.getStatus().equals("on"))
+        if (player.getStatus().equals("on")) {
             return startPlayer(player.getWebradio(), 0L);
-        else
+        } else {
             return stopPlayer();
+        }
     }
 
     public String startPlayer(Long webradioId, Long autoStopMinutes) {
@@ -56,8 +53,8 @@ public class PlayerController {
             url = getWebradioUrl(webradioList);
         } else {
             for (Webradio webradio : webradioList) {
-                if (webradio.isDefault()){
-                    if( webradio.getId().equals(webradioId)) {
+                if (webradio.isDefault()) {
+                    if (webradio.getId().equals(webradioId)) {
                         webradio.setDefault(true);
                         webradioRepository.save(webradio);
                         url = webradio.getUrl();
@@ -65,7 +62,7 @@ public class PlayerController {
                         webradio.setDefault(false);
                         webradioRepository.save(webradio);
                     }
-                } else if ( webradio.getId().equals(webradioId)) {
+                } else if (webradio.getId().equals(webradioId)) {
                     webradio.setDefault(true);
                     webradioRepository.save(webradio);
                     url = webradio.getUrl();
@@ -75,8 +72,8 @@ public class PlayerController {
         return startPlayer(url, autoStopMinutes);
     }
 
-    private String getWebradioUrl(List<Webradio> webradioList){
-        return  webradioList
+    private String getWebradioUrl(List<Webradio> webradioList) {
+        return webradioList
                 .stream()
                 .filter(Webradio::isDefault)
                 .map(Webradio::<String>getUrl)

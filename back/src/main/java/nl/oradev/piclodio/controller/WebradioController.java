@@ -62,7 +62,6 @@ public class WebradioController {
         webradio.setName(webradioDTO.getName());
         webradio.setUrl(webradioDTO.getUrl());
         webradio.setDefault(webradioDTO.isDefault());
-
         return webradioRepository.save(webradio);
     }
 
@@ -72,7 +71,6 @@ public class WebradioController {
                 .orElseThrow(() -> new ResourceNotFoundException(WEBRADIO, "id", webradioId));
 
         webradioRepository.delete(webradio);
-
         return ResponseEntity.ok().build();
     }
 }

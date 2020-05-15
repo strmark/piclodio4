@@ -29,7 +29,7 @@ public class Alarm {
     private Long id;
 
     @NotBlank
-    private String  name;
+    private String name;
     private boolean monday;
     private boolean tuesday;
     private boolean wednesday;
@@ -37,11 +37,20 @@ public class Alarm {
     private boolean friday;
     private boolean saturday;
     private boolean sunday;
-    private int     hour;
-    private int     minute;
+    private int hour;
+    private int minute;
     private int autoStopMinutes;
     private boolean isActive;
     private long webradio;
+
+    @Column(nullable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
+    private Date createdAt;
+
+    @Column(nullable = false)
+    @LastModifiedDate
+    private Date updatedAt;
 
     public long getWebradio() { return webradio; }
 
@@ -137,15 +146,6 @@ public class Alarm {
 
     public void setActive(boolean active) { this.isActive = active; }
 
-    @Column(nullable = false, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    private Date createdAt;
-
-    @Column(nullable = false)
-    @LastModifiedDate
-    private Date updatedAt;
-
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -161,5 +161,4 @@ public class Alarm {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
-
 }

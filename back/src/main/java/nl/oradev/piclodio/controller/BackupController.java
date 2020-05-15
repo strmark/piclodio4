@@ -45,14 +45,15 @@ public class BackupController {
                stream.write(file.getBytes());
             }
         }
+
         List<Backup> backupList = backupRepository.findAll();
-        for (Backup backup : backupList) {
-            backupRepository.delete(backup);
-        }
-        Backup back = new Backup();
-        back.setBackupFile("backup_mp3/" + fileName);
-        backupRepository.save(back);
+        backupList
+                .stream()
+                .forEach(backup -> backupRepository.delete(backup));
+
+        Backup backup = new Backup();
+        backup.setBackupFile("backup_mp3/" + fileName);
+        backupRepository.save(backup);
         return backupRepository.findAll();
     }
-
 }

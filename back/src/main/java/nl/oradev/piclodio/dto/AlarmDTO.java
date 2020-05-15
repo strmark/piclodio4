@@ -4,14 +4,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AlarmDTO {
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     private Long id;
     private String name;
     private boolean monday;
@@ -26,6 +18,14 @@ public class AlarmDTO {
     private int autoStopMinutes;
     private boolean isActive;
     private long webradio;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public void setName(String name) {
         this.name = name;

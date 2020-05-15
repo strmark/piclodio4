@@ -37,6 +37,5 @@ public class VolumeController {
         Audio.setSpeakerOutputVolume(vol);
         return "{\"volume\":" + volValue + "}";
     }
-
 }
 

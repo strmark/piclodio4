@@ -18,7 +18,6 @@ public class VlcPlayer {
     private Process vlcplayerProcess;
     private BufferedReader vlcplayerOutErr;
 
-
     public void open(String url, Long autoStopMinutes) throws IOException, InterruptedException {
         if (vlcplayerProcess == null) {
             // start VlcPlayer as an external process
