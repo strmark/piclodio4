@@ -9,20 +9,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class PlayerController {
 
     private static Logger logger = LoggerFactory.getLogger(PlayerController.class);
-
     private VlcPlayer vlcplayer;
-
     private WebradioRepository webradioRepository;
 
-    public PlayerController(WebradioRepository webradioRepository) {
+    public PlayerController(WebradioRepository webradioRepository, VlcPlayer vlcPlayer) {
         this.webradioRepository = webradioRepository;
-        this.vlcplayer = new VlcPlayer();
+        this.vlcplayer = vlcPlayer;
     }
 
     @GetMapping(path = "/player", produces = "application/json")
@@ -45,31 +45,38 @@ public class PlayerController {
     public String startPlayer(Long webradioId, Long autoStopMinutes) {
         logger.info("Webradio: id = {}", webradioId);
         logger.info("Webradio: autostop = {}", autoStopMinutes);
-        String url = "dummy";
+        String url = null;
 
         List<Webradio> webradioList = webradioRepository.findAll();
 
         if (webradioId == null) {
             url = getWebradioUrl(webradioList);
         } else {
-            for (Webradio webradio : webradioList) {
-                if (webradio.isDefault()) {
-                    if (webradio.getId().equals(webradioId)) {
-                        webradio.setDefault(true);
-                        webradioRepository.save(webradio);
-                        url = webradio.getUrl();
-                    } else {
-                        webradio.setDefault(false);
-                        webradioRepository.save(webradio);
-                    }
-                } else if (webradio.getId().equals(webradioId)) {
-                    webradio.setDefault(true);
-                    webradioRepository.save(webradio);
-                    url = webradio.getUrl();
-                }
-            }
+            url = webradioList
+                    .stream()
+                    .map(webradio -> setDefaultAndSave(webradioId, webradio))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.joining());
         }
         return startPlayer(url, autoStopMinutes);
+    }
+
+    private String setDefaultAndSave(Long webradioId,  Webradio webradio) {
+        if (webradio.isDefault()) {
+            if (webradio.getId().equals(webradioId)) {
+                webradio.setDefault(true);
+                webradioRepository.save(webradio);
+                return webradio.getUrl();
+            } else {
+                webradio.setDefault(false);
+                webradioRepository.save(webradio);
+            }
+        } else if (webradio.getId().equals(webradioId)) {
+            webradio.setDefault(true);
+            webradioRepository.save(webradio);
+            return webradio.getUrl();
+        }
+        return null;
     }
 
     private String getWebradioUrl(List<Webradio> webradioList) {

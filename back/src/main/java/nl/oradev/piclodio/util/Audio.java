@@ -131,7 +131,6 @@ public class Audio {
         if (controls == null || controls.length == 0) {
             return null;
         }
-
         return Arrays.stream(controls)
                 .map(control -> getControl(type, control))
                 .findFirst()

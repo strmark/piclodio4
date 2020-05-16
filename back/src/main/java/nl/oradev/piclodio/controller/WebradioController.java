@@ -24,7 +24,6 @@ import java.util.List;
 public class WebradioController {
 
     private WebradioRepository webradioRepository;
-
     private static final String WEBRADIO = "Webradio";
 
     public WebradioController(WebradioRepository webradioRepository) {
@@ -55,7 +54,6 @@ public class WebradioController {
     @PutMapping("/webradio/{id}")
     public Webradio updateWebradio(@PathVariable(value = "id") Long webradioId,
                                    @Valid @RequestBody WebradioDTO webradioDTO) {
-
         Webradio webradio = webradioRepository.findById(webradioId)
                 .orElseThrow(() -> new ResourceNotFoundException(WEBRADIO, "id", webradioId));
 

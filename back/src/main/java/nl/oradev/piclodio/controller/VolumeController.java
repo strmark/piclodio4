@@ -1,6 +1,5 @@
 package nl.oradev.piclodio.controller;
 
-
 import nl.oradev.piclodio.payload.VolumeRequest;
 import nl.oradev.piclodio.util.Audio;
 import org.slf4j.Logger;
@@ -20,10 +19,12 @@ public class VolumeController {
     @GetMapping(path = "/volume", produces = "application/json")
     public String getVolume() {
         int volume = (int) Math.ceil((double) Audio.getSpeakerOutputVolume() * 100);
-        if (volume < 0)
+        if (volume < 0) {
             volume = 0;
-        if (volume > 100)
+        }
+        if (volume > 100) {
             volume = 100;
+        }
         return "{\"volume\":" + volume + "}";
     }
 
