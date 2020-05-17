@@ -21,7 +21,7 @@ import java.util.List;
 @RestController
 public class BackupController {
     private static final Logger logger = LoggerFactory.getLogger(BackupController.class);
-    private static final String TEMP_FILE = "backup_mp3";
+    private static final String TEMP_FILE = "/tmp/backup_mp3";
     private BackupRepository backupRepository;
 
     public BackupController(BackupRepository backupRepository) {
