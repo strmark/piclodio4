@@ -4,6 +4,16 @@ public class PlayerRequest {
     private String status;
     private Long webradio;
     private Long autoStopMinutes;
+    private String url;
+
+    public PlayerRequest() {
+    }
+
+    public PlayerRequest(String status, Long webradio) {
+        super();
+        this.status = status;
+        this.webradio = webradio;
+    }
 
     public String getUrl() {
         return url;
@@ -13,23 +23,12 @@ public class PlayerRequest {
         this.url = url;
     }
 
-    private String url;
-
     public Long getAutoStopMinutes() {
         return autoStopMinutes;
     }
 
     public void setAutoStopMinutes(Long autoStopMinutes) {
         this.autoStopMinutes = autoStopMinutes;
-    }
-
-    public PlayerRequest() {
-    }
-
-    public PlayerRequest(String status, Long webradio) {
-        super();
-        this.status = status;
-        this.webradio = webradio;
     }
 
     public String getStatus() {

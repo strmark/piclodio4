@@ -6,27 +6,23 @@ import nl.oradev.piclodio.repository.WebradioRepository;
 import nl.oradev.piclodio.util.VlcPlayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class PlayerController {
 
     private static Logger logger = LoggerFactory.getLogger(PlayerController.class);
-
     private VlcPlayer vlcplayer;
-
     private WebradioRepository webradioRepository;
 
-    public PlayerController(WebradioRepository webradioRepository) {
+    public PlayerController(WebradioRepository webradioRepository, VlcPlayer vlcPlayer) {
         this.webradioRepository = webradioRepository;
-        this.vlcplayer = new VlcPlayer();
+        this.vlcplayer = vlcPlayer;
     }
 
     @GetMapping(path = "/player", produces = "application/json")
@@ -39,55 +35,62 @@ public class PlayerController {
         logger.info("Webradio: {}", player.getWebradio());
         logger.info("Status: {}", player.getStatus());
 
-        if (player.getStatus().equals("on"))
+        if (player.getStatus().equals("on")) {
             return startPlayer(player.getWebradio(), 0L);
-        else
+        } else {
             return stopPlayer();
+        }
     }
 
     public String startPlayer(Long webradioId, Long autoStopMinutes) {
         logger.info("Webradio: id = {}", webradioId);
         logger.info("Webradio: autostop = {}", autoStopMinutes);
-        String url = "dummy";
-
-        List<Webradio> webradioList = webradioRepository.findAll();
+        String url = null;
 
         if (webradioId == null) {
-            url = getWebradioUrl(webradioList);
+            url = getWebradioUrl(webradioRepository.findAll());
         } else {
-            for (Webradio webradio : webradioList) {
-                if (webradio.isDefault()){
-                    if( webradio.getId().equals(webradioId)) {
-                        webradio.setDefault(true);
-                        webradioRepository.save(webradio);
-                        url = webradio.getUrl();
-                    } else {
-                        webradio.setDefault(false);
-                        webradioRepository.save(webradio);
-                    }
-                } else if ( webradio.getId().equals(webradioId)) {
-                    webradio.setDefault(true);
-                    webradioRepository.save(webradio);
-                    url = webradio.getUrl();
-                }
-            }
+            url = webradioRepository
+                    .findAll()
+                    .stream()
+                    .map(webradio -> setDefaultAndSave(webradioId, webradio))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.joining());
         }
         return startPlayer(url, autoStopMinutes);
     }
 
-    private String getWebradioUrl(List<Webradio> webradioList){
-        return  webradioList
+    private String setDefaultAndSave(Long webradioId,  Webradio webradio) {
+        if (webradio.isDefault()) {
+            if (webradio.getId().equals(webradioId)) {
+                webradio.setDefault(true);
+                webradioRepository.save(webradio);
+                return webradio.getUrl();
+            } else {
+                webradio.setDefault(false);
+                webradioRepository.save(webradio);
+            }
+        } else if (webradio.getId().equals(webradioId)) {
+            webradio.setDefault(true);
+            webradioRepository.save(webradio);
+            return webradio.getUrl();
+        }
+        return null;
+    }
+
+    private String getWebradioUrl(List<Webradio> webradioList) {
+        return webradioList
                 .stream()
                 .filter(Webradio::isDefault)
                 .map(Webradio::<String>getUrl)
-                .findAny()                                     // If 'findAny' then return found
+                .findAny()
                 .orElse(null);
     }
 
     public String startPlayer(String url, Long autoStopMinutes) {
         try {
             // no timer so minutes 0l
-            this.vlcplayer.open(url, autoStopMinutes);
+            vlcplayer.open(url, autoStopMinutes);
         } catch (Exception exeception) {
             logger.error(exeception.getMessage(), exeception);
         }
@@ -97,7 +100,7 @@ public class PlayerController {
     public String stopPlayer() {
         // stop playing and return status off
         try {
-            this.vlcplayer.close();
+            vlcplayer.close();
         } catch (Exception exception) {
             logger.error(exception.getMessage(), exception);
         }

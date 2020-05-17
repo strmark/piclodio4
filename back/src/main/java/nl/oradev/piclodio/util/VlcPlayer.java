@@ -2,6 +2,8 @@ package nl.oradev.piclodio.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,15 +11,15 @@ import java.io.InputStreamReader;
 import java.io.PipedInputStream;
 import java.util.concurrent.TimeUnit;
 
-
+@Component
 public class VlcPlayer {
 
     private static final Logger logger = LoggerFactory.getLogger(VlcPlayer.class);
 
-    private String vlcPlayerPath = "/usr/bin/cvlc";
+    @Value("${vlc.player.path}")
+    private String vlcPlayerPath;
     private Process vlcplayerProcess;
     private BufferedReader vlcplayerOutErr;
-
 
     public void open(String url, Long autoStopMinutes) throws IOException, InterruptedException {
         if (vlcplayerProcess == null) {

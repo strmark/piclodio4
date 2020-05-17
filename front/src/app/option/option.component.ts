@@ -27,7 +27,7 @@ export class OptionComponent implements OnInit {
   public uploader: FileUploader = new FileUploader({
     url: this.baseUrl + "/backup/",
     method: 'POST',
-    itemAlias: 'backup_file',
+    itemAlias: 'backupFile',
     queueLimit: 1,
     removeAfterUpload: true
   });
@@ -105,8 +105,8 @@ export class OptionComponent implements OnInit {
       console.log(backup[0]);
       // we receive a complete path that contain the root path and the file name. let's keep only the file name
       let tmpBackup = backup[0];
-      let onlyFileName = tmpBackup.backup_file.split('/')[1];
-      tmpBackup.backup_file = onlyFileName;
+      let onlyFileName = tmpBackup.backupFile.split('/')[1];
+      tmpBackup.backupFile = onlyFileName;
       this.currentBackup = tmpBackup;
     }
   }

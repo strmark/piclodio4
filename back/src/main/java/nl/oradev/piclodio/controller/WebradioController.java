@@ -24,7 +24,6 @@ import java.util.List;
 public class WebradioController {
 
     private WebradioRepository webradioRepository;
-
     private static final String WEBRADIO = "Webradio";
 
     public WebradioController(WebradioRepository webradioRepository) {
@@ -55,14 +54,12 @@ public class WebradioController {
     @PutMapping("/webradio/{id}")
     public Webradio updateWebradio(@PathVariable(value = "id") Long webradioId,
                                    @Valid @RequestBody WebradioDTO webradioDTO) {
-
         Webradio webradio = webradioRepository.findById(webradioId)
                 .orElseThrow(() -> new ResourceNotFoundException(WEBRADIO, "id", webradioId));
 
         webradio.setName(webradioDTO.getName());
         webradio.setUrl(webradioDTO.getUrl());
         webradio.setDefault(webradioDTO.isDefault());
-
         return webradioRepository.save(webradio);
     }
 
@@ -72,7 +69,6 @@ public class WebradioController {
                 .orElseThrow(() -> new ResourceNotFoundException(WEBRADIO, "id", webradioId));
 
         webradioRepository.delete(webradio);
-
         return ResponseEntity.ok().build();
     }
 }

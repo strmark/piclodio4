@@ -87,7 +87,11 @@ public class Webradio {
         this.updatedAt = updatedAt;
     }
 
-    public boolean isDefault() { return isDefault; }
+    public boolean isDefault() {
+        return isDefault;
+    }
 
-    public void setDefault(boolean aDefault) { this.isDefault = aDefault; }
+    public void setDefault(boolean aDefault) {
+        this.isDefault = aDefault;
+    }
 }

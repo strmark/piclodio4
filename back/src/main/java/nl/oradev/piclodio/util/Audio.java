@@ -1,7 +1,5 @@
 package nl.oradev.piclodio.util;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.BooleanControl;
 import javax.sound.sampled.CompoundControl;
@@ -12,38 +10,17 @@ import javax.sound.sampled.Line;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.Mixer;
 import javax.sound.sampled.Mixer.Info;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Audio {
 
-    private static String hardwareDescription= "hw:0";  // "hw:1"
+    private static String hardwareDescription = "hw:0";  // "hw:1"
     private static String hardwareItem = "PCM"; // "Speaker"
 
-    private Audio(){
-    }
-
-    public static void setSpeakerOutputVolume(float value) {
-        if (value < 0 || value > 1) {
-            throw new IllegalArgumentException(
-                    "VolumeTransfer can only be set to a value from 0 to 1. Given value is illegal: " + value);
-        }
-        Line line = getSpeakerOutputLine();
-        if (line != null) {
-            boolean opened = open(line);
-            try {
-                FloatControl control = getVolumeControl(line);
-                if (control != null) {
-                    control.setValue(value);
-                } else {
-                    throw new NullPointerException("VolumeTransfer control not found in speaker port: " + toString(line));
-                }
-            } finally {
-                if (opened) {
-                    line.close();
-                }
-            }
-        } else {
-            throw new NullPointerException("Speaker output port not found");
-        }
+    private Audio() {
     }
 
     public static Float getSpeakerOutputVolume() {
@@ -64,16 +41,20 @@ public class Audio {
         return null;
     }
 
-    public static void setSpeakerOutputMute(boolean value) {
+    public static void setSpeakerOutputVolume(float value) {
+        if (value < 0 || value > 1) {
+            throw new IllegalArgumentException(
+                    "VolumeTransfer can only be set to a value from 0 to 1. Given value is illegal: " + value);
+        }
         Line line = getSpeakerOutputLine();
         if (line != null) {
             boolean opened = open(line);
             try {
-                BooleanControl control = getMuteControl(line);
+                FloatControl control = getVolumeControl(line);
                 if (control != null) {
                     control.setValue(value);
                 } else {
-                    throw new NullPointerException("Mute control not found in speaker port: " + toString(line));
+                    throw new NullPointerException("VolumeTransfer control not found in speaker port: " + toString(line));
                 }
             } finally {
                 if (opened) {
@@ -103,17 +84,38 @@ public class Audio {
         return false;
     }
 
-    public static Line getSpeakerOutputLine() {
-        for (Mixer mixer : getMixers()) {
-            if (mixer.getMixerInfo().getName().contains(hardwareDescription)) {
-                for (Line line : getAvailableOutputLines(mixer)) {
-                    if (line.getLineInfo().toString().contains(hardwareItem)) {
-                        return line;
-                    }
+    public static void setSpeakerOutputMute(boolean value) {
+        Line line = getSpeakerOutputLine();
+        if (line != null) {
+            boolean opened = open(line);
+            try {
+                BooleanControl control = getMuteControl(line);
+                if (control != null) {
+                    control.setValue(value);
+                } else {
+                    throw new NullPointerException("Mute control not found in speaker port: " + toString(line));
+                }
+            } finally {
+                if (opened) {
+                    line.close();
                 }
             }
+        } else {
+            throw new NullPointerException("Speaker output port not found");
         }
-        return null;
+    }
+
+    public static Line getSpeakerOutputLine() {
+        return getMixers()
+                .stream()
+                .filter(mixer -> mixer.getMixerInfo().getName().contains(hardwareDescription))
+                .map(mixer -> getAvailableOutputLines(mixer)
+                        .stream()
+                        .filter(line -> line.getLineInfo().toString().contains(hardwareItem))
+                        .findFirst()
+                        .orElse(null))
+                .findFirst()
+                .orElse(null);
     }
 
     public static FloatControl getVolumeControl(Line line) {
@@ -136,28 +138,30 @@ public class Audio {
         if (controls == null || controls.length == 0) {
             return null;
         }
-        for (Control control : controls) {
-            if (control.getType().equals(type))  {
-                return control;
-            }
-            if (control instanceof CompoundControl) {
-                CompoundControl compoundControl = (CompoundControl) control;
-                Control member = findControl(type, compoundControl.getMemberControls());
-                if (member != null) {
-                    return member;
-                }
+        return Arrays.stream(controls)
+                .map(control -> getControl(type, control))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private static Control getControl(Type type, Control control) {
+        if (control.getType().equals(type)) {
+            return control;
+        }
+        if (control instanceof CompoundControl) {
+            CompoundControl compoundControl = (CompoundControl) control;
+            Control member = findControl(type, compoundControl.getMemberControls());
+            if (member != null) {
+                return member;
             }
         }
         return null;
     }
 
     public static List<Mixer> getMixers() {
-        Info[] infos = AudioSystem.getMixerInfo();
-        List<Mixer> mixers = new ArrayList<>(infos.length);
-        for (Info info : infos) {
-            mixers.add(AudioSystem.getMixer(info));
-        }
-        return mixers;
+        return Arrays.stream(AudioSystem.getMixerInfo())
+                .map(AudioSystem::getMixer)
+                .collect(Collectors.toList());
     }
 
     public static List<Line> getAvailableOutputLines(Mixer mixer) {
@@ -169,15 +173,10 @@ public class Audio {
     }
 
     private static List<Line> getAvailableLines(Mixer mixer, Line.Info[] lineInfos) {
-        List<Line> lines = new ArrayList<>(lineInfos.length);
-        for (Line.Info lineInfo : lineInfos) {
-            Line line;
-            line = getLineIfAvailable(mixer, lineInfo);
-            if (line != null) {
-                lines.add(line);
-            }
-        }
-        return lines;
+        return Arrays.stream(lineInfos)
+                .map(lineInfo -> getLineIfAvailable(mixer, lineInfo))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
     public static Line getLineIfAvailable(Mixer mixer, Line.Info lineInfo) {
@@ -189,32 +188,24 @@ public class Audio {
     }
 
     public static boolean open(Line line) {
-        if (!line.isOpen()) {
+        if (line.isOpen()) {
+            return true;
+        } else {
             try {
                 line.open();
                 return true;
             } catch (LineUnavailableException ex) {
                 return false;
             }
-        } else {
-            return true;
         }
     }
 
     public static String toString(Control control) {
-        if (control != null) {
-            return control.toString() + " (" + control.getType().toString() + ")";
-        } else {
-            return null;
-        }
+        return (control != null) ? (control.toString() + " (" + control.getType().toString() + ")") : null;
     }
 
     public static String toString(Line line) {
-        if (line != null) {
-            return line.getLineInfo().toString();
-        } else {
-            return null;
-        }
+        return (line != null) ? (line.getLineInfo().toString()) : null;
     }
 
     public static String toString(Mixer mixer) {
