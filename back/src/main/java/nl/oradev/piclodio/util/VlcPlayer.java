@@ -24,7 +24,6 @@ public class VlcPlayer {
     public void open(String url, Long autoStopMinutes) throws IOException, InterruptedException {
         if (vlcplayerProcess == null) {
             // start VlcPlayer as an external process
-
             String command = vlcPlayerPath + " " + url;
             logger.info("Starting VlcPlayer process:{}", command);
             vlcplayerProcess = Runtime.getRuntime().exec(command);

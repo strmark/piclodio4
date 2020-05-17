@@ -19,19 +19,14 @@ public class VolumeController {
     @GetMapping(path = "/volume", produces = "application/json")
     public String getVolume() {
         int volume = (int) Math.ceil((double) Audio.getSpeakerOutputVolume() * 100);
-        if (volume < 0) {
-            volume = 0;
-        }
-        if (volume > 100) {
-            volume = 100;
-        }
+        volume = (volume < 0) ? 0 : volume;
+        volume = (volume > 100) ? 100 : volume;
         return "{\"volume\":" + volume + "}";
     }
 
     @PostMapping(path = "/volume", produces = "application/json")
     public String updateVolume(@RequestBody VolumeRequest volume) {
         String volValue = volume.getVolume();
-
         float vol = Float.parseFloat(volValue) / 100;
 
         logger.info("Volume {}", vol);

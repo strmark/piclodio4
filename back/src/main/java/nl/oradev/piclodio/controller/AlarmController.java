@@ -8,7 +8,6 @@ import nl.oradev.piclodio.model.Webradio;
 import nl.oradev.piclodio.payload.ScheduleAlarmResponse;
 import nl.oradev.piclodio.repository.AlarmRepository;
 import nl.oradev.piclodio.repository.WebradioRepository;
-
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
@@ -139,23 +138,22 @@ public class AlarmController {
                 + alarmDetails.getMinute() + " "
                 + alarmDetails.getHour()
                 + " ? * ";
+        String cronDays= "";
+        cronDays = stringAppend(cronDays, alarmDetails.isMonday(), "MON");
+        cronDays = stringAppend(cronDays, alarmDetails.isTuesday(), "TUE");
+        cronDays = stringAppend(cronDays, alarmDetails.isWednesday(), "WED");
+        cronDays = stringAppend(cronDays, alarmDetails.isThursday(), "THU");
+        cronDays = stringAppend(cronDays, alarmDetails.isFriday(), "FRI");
+        cronDays = stringAppend(cronDays, alarmDetails.isSaturday(), "SAT");
+        cronDays = stringAppend(cronDays, alarmDetails.isSunday(), "SUN");
+        return cronSchedule + cronDays + " *";
+    }
 
-        if (alarmDetails.isMonday())
-            cronSchedule = stringConcat(cronSchedule, "MON");
-        if (alarmDetails.isTuesday())
-            cronSchedule = stringConcat(cronSchedule, "TUE");
-        if (alarmDetails.isWednesday())
-            cronSchedule = stringConcat(cronSchedule, "WED");
-        if (alarmDetails.isThursday())
-            cronSchedule = stringConcat(cronSchedule, "THU");
-        if (alarmDetails.isFriday())
-            cronSchedule = stringConcat(cronSchedule, "FRI");
-        if (alarmDetails.isSaturday())
-            cronSchedule = stringConcat(cronSchedule, "SAT");
-        if (alarmDetails.isSunday())
-            cronSchedule = stringConcat(cronSchedule, "SUN");
-
-        return cronSchedule + " *";
+    private String stringAppend(String cronDays, boolean isDay, String day) {
+        if (isDay) {
+            return (cronDays.isEmpty()?day:cronDays + "," + day);
+        }
+        return "";
     }
 
     private Alarm saveAlarm(AlarmDTO alarmDTO, Long alarmId) {
@@ -178,13 +176,6 @@ public class AlarmController {
         alarm.setActive(alarmDTO.isActive());
         alarm.setWebradio(alarmDTO.getWebradio());
         return alarmRepository.save(alarm);
-    }
-
-    private String stringConcat(String cronDays, String day) {
-        if (cronDays.isEmpty())
-            return day;
-        else
-            return cronDays + "," + day;
     }
 
     private JobDetail buildJobDetail(String alarmName, Long webradio, Long autoStopMinutes, String url) {

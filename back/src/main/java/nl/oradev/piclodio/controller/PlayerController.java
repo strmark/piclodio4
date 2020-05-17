@@ -47,12 +47,11 @@ public class PlayerController {
         logger.info("Webradio: autostop = {}", autoStopMinutes);
         String url = null;
 
-        List<Webradio> webradioList = webradioRepository.findAll();
-
         if (webradioId == null) {
-            url = getWebradioUrl(webradioList);
+            url = getWebradioUrl(webradioRepository.findAll());
         } else {
-            url = webradioList
+            url = webradioRepository
+                    .findAll()
                     .stream()
                     .map(webradio -> setDefaultAndSave(webradioId, webradio))
                     .filter(Objects::nonNull)
@@ -84,14 +83,14 @@ public class PlayerController {
                 .stream()
                 .filter(Webradio::isDefault)
                 .map(Webradio::<String>getUrl)
-                .findAny()                                     // If 'findAny' then return found
+                .findAny()
                 .orElse(null);
     }
 
     public String startPlayer(String url, Long autoStopMinutes) {
         try {
             // no timer so minutes 0l
-            this.vlcplayer.open(url, autoStopMinutes);
+            vlcplayer.open(url, autoStopMinutes);
         } catch (Exception exeception) {
             logger.error(exeception.getMessage(), exeception);
         }
@@ -101,7 +100,7 @@ public class PlayerController {
     public String stopPlayer() {
         // stop playing and return status off
         try {
-            this.vlcplayer.close();
+            vlcplayer.close();
         } catch (Exception exception) {
             logger.error(exception.getMessage(), exception);
         }

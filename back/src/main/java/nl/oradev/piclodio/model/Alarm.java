@@ -52,19 +52,33 @@ public class Alarm {
     @LastModifiedDate
     private Date updatedAt;
 
-    public long getWebradio() { return webradio; }
+    public long getWebradio() {
+        return webradio;
+    }
 
-    public void setWebradio(long webradio) { this.webradio = webradio; }
+    public void setWebradio(long webradio) {
+        this.webradio = webradio;
+    }
 
-    public Long getId() { return id; }
+    public Long getId() {
+        return id;
+    }
 
-    public void setId(Long id) { this.id = id; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public boolean isMonday() { return monday; }
+    public boolean isMonday() {
+        return monday;
+    }
 
     public void setMonday(boolean monday) {
         this.monday = monday;
@@ -142,9 +156,13 @@ public class Alarm {
         this.autoStopMinutes = autoStopMinutes;
     }
 
-    public boolean isActive() { return isActive; }
+    public boolean isActive() {
+        return isActive;
+    }
 
-    public void setActive(boolean active) { this.isActive = active; }
+    public void setActive(boolean active) {
+        this.isActive = active;
+    }
 
     public Date getCreatedAt() {
         return createdAt;

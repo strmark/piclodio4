@@ -13,7 +13,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -35,20 +34,18 @@ public class BackupController {
 
     @PostMapping(path = "/backup")
     public List<Backup> uploadFile(MultipartHttpServletRequest request) throws IOException {
-        // TODO rewrite
-        Iterator<String> itr = request.getFileNames();
-        MultipartFile file = request.getFile(itr.next());
+        MultipartFile file = request.getFile(request.getFileNames().next());
         String fileName = file.getOriginalFilename();
         File dir = new File(TEMP_FILE);
         if (dir.isDirectory()) {
             File serverFile = new File(dir, fileName);
             try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile))) {
-               stream.write(file.getBytes());
+                stream.write(file.getBytes());
             }
         }
 
-        List<Backup> backupList = backupRepository.findAll();
-        backupList
+        backupRepository
+                .findAll()
                 .stream()
                 .forEach(backup -> backupRepository.delete(backup));
 

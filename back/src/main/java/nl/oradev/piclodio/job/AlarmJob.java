@@ -12,7 +12,6 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 @Component
 public class AlarmJob extends QuartzJobBean {
     private static final Logger logger = LoggerFactory.getLogger(AlarmJob.class);
-
     private PlayerController playerController;
 
     public AlarmJob(PlayerController playerController) {
@@ -24,13 +23,9 @@ public class AlarmJob extends QuartzJobBean {
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
         logger.info("Executing Job with key {}", jobExecutionContext.getJobDetail().getKey());
 
-        JobDataMap jobDataMap = jobExecutionContext.getMergedJobDataMap();
-        Long autoStopMinutes = jobDataMap.getLong("autoStopMinutes");
-        String url = jobDataMap.getString("url");
-
         logger.info("Start player");
-
-        playerController.startPlayer(url, autoStopMinutes);
+        JobDataMap jobDataMap = jobExecutionContext.getMergedJobDataMap();
+        playerController.startPlayer(jobDataMap.getString("url"), jobDataMap.getLong("autoStopMinutes"));
     }
 
 }

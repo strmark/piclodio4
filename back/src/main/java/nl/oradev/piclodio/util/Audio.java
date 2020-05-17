@@ -1,7 +1,14 @@
 package nl.oradev.piclodio.util;
 
-import javax.sound.sampled.*;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.BooleanControl;
+import javax.sound.sampled.CompoundControl;
+import javax.sound.sampled.Control;
 import javax.sound.sampled.Control.Type;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.Line;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.Mixer;
 import javax.sound.sampled.Mixer.Info;
 import java.util.Arrays;
 import java.util.List;
@@ -194,12 +201,11 @@ public class Audio {
     }
 
     public static String toString(Control control) {
-        return (control != null) ? ( control.toString() + " (" + control.getType().toString() + ")" ) : null;
-
+        return (control != null) ? (control.toString() + " (" + control.getType().toString() + ")") : null;
     }
 
     public static String toString(Line line) {
-       return (line != null) ? (line.getLineInfo().toString()) : null;
+        return (line != null) ? (line.getLineInfo().toString()) : null;
     }
 
     public static String toString(Mixer mixer) {
