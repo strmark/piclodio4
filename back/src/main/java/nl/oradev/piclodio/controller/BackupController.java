@@ -2,6 +2,8 @@ package nl.oradev.piclodio.controller;
 
 import nl.oradev.piclodio.model.Backup;
 import nl.oradev.piclodio.repository.BackupRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,9 +20,8 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class BackupController {
-
-    private static final String TEMP_FILE = "/tmp/backup_mp3";
-
+    private static final Logger logger = LoggerFactory.getLogger(BackupController.class);
+    private static final String TEMP_FILE = "backup_mp3";
     private BackupRepository backupRepository;
 
     public BackupController(BackupRepository backupRepository) {
@@ -37,8 +38,10 @@ public class BackupController {
         MultipartFile file = request.getFile(request.getFileNames().next());
         String fileName = file.getOriginalFilename();
         File dir = new File(TEMP_FILE);
+        logger.info("Writing file");
         if (dir.isDirectory()) {
             File serverFile = new File(dir, fileName);
+            logger.info("Writing to file {}", fileName);
             try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile))) {
                 stream.write(file.getBytes());
             }
