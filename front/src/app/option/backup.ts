@@ -1,6 +1,6 @@
 export class Backup {
     id: number;
-    backup_file: string;
+    backupFile: string;
 
     constructor(values: Object = {}) {
         Object.assign(this, values);
