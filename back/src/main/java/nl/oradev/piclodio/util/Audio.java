@@ -145,7 +145,7 @@ public class Audio {
     }
 
     private static Control getControl(Type type, Control control) {
-        if (control.getType().equals(type)) {
+        if (Objects.equals(control.getType(), type)) {
             return control;
         }
         if (control instanceof CompoundControl) {
