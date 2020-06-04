@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 @RestController
 public class PlayerController {
 
-    private static Logger logger = LoggerFactory.getLogger(PlayerController.class);
-    private VlcPlayer vlcplayer;
-    private WebradioRepository webradioRepository;
+    private static final Logger logger = LoggerFactory.getLogger(PlayerController.class);
+    private final VlcPlayer vlcplayer;
+    private final WebradioRepository webradioRepository;
 
     public PlayerController(WebradioRepository webradioRepository, VlcPlayer vlcPlayer) {
         this.webradioRepository = webradioRepository;

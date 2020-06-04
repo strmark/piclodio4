@@ -12,7 +12,7 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 @Component
 public class AlarmJob extends QuartzJobBean {
     private static final Logger logger = LoggerFactory.getLogger(AlarmJob.class);
-    private PlayerController playerController;
+    private final PlayerController playerController;
 
     public AlarmJob(PlayerController playerController) {
         this.playerController = playerController;

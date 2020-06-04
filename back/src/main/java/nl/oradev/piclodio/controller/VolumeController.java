@@ -19,8 +19,8 @@ public class VolumeController {
     @GetMapping(path = "/volume", produces = "application/json")
     public String getVolume() {
         int volume = (int) Math.ceil((double) Audio.getSpeakerOutputVolume() * 100);
-        volume = (volume < 0) ? 0 : volume;
-        volume = (volume > 100) ? 100 : volume;
+        volume = Math.max(volume, 0);
+        volume = Math.min(volume, 100);
         return "{\"volume\":" + volume + "}";
     }
 
