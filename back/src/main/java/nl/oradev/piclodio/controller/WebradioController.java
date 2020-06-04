@@ -23,7 +23,7 @@ import java.util.List;
 @RequestMapping("/")
 public class WebradioController {
 
-    private WebradioRepository webradioRepository;
+    private final WebradioRepository webradioRepository;
     private static final String WEBRADIO = "Webradio";
 
     public WebradioController(WebradioRepository webradioRepository) {

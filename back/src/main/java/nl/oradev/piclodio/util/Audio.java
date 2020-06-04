@@ -9,7 +9,6 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.Line;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.Mixer;
-import javax.sound.sampled.Mixer.Info;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -17,8 +16,8 @@ import java.util.stream.Collectors;
 
 public class Audio {
 
-    private static String hardwareDescription = "hw:0";  // "hw:1"
-    private static String hardwareItem = "PCM"; // "Speaker"
+    private static final String HARDWARE_DESCRIPTION = "hw:0";  // "hw:1"
+    private static final String HARDWARE_ITEM = "PCM"; // "Speaker"
 
     private Audio() {
     }
@@ -108,10 +107,10 @@ public class Audio {
     public static Line getSpeakerOutputLine() {
         return getMixers()
                 .stream()
-                .filter(mixer -> mixer.getMixerInfo().getName().contains(hardwareDescription))
+                .filter(mixer -> mixer.getMixerInfo().getName().contains(HARDWARE_DESCRIPTION))
                 .map(mixer -> getAvailableOutputLines(mixer)
                         .stream()
-                        .filter(line -> line.getLineInfo().toString().contains(hardwareItem))
+                        .filter(line -> line.getLineInfo().toString().contains(HARDWARE_ITEM))
                         .findFirst()
                         .orElse(null))
                 .findFirst()
@@ -145,7 +144,7 @@ public class Audio {
     }
 
     private static Control getControl(Type type, Control control) {
-        if (control.getType().equals(type)) {
+        if (Objects.equals(control.getType(), type)) {
             return control;
         }
         if (control instanceof CompoundControl) {
@@ -200,21 +199,8 @@ public class Audio {
         }
     }
 
-    public static String toString(Control control) {
-        return (control != null) ? (control.toString() + " (" + control.getType().toString() + ")") : null;
-    }
-
     public static String toString(Line line) {
         return (line != null) ? (line.getLineInfo().toString()) : null;
-    }
-
-    public static String toString(Mixer mixer) {
-        if (mixer == null) {
-            return null;
-        } else {
-            Info info = mixer.getMixerInfo();
-            return info.getName() + " (" + info.getDescription() + ")" + (mixer.isOpen() ? " [open]" : " [closed]");
-        }
     }
 
 }

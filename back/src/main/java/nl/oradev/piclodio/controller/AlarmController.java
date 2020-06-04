@@ -43,9 +43,9 @@ public class AlarmController {
     private static final String ALARM_JOBS = "Alarm-jobs";
     private static final String PICLODIO = "Piclodio_";
 
-    private AlarmRepository alarmRepository;
-    private WebradioRepository webradioRepository;
-    private Scheduler scheduler;
+    private final AlarmRepository alarmRepository;
+    private final WebradioRepository webradioRepository;
+    private final Scheduler scheduler;
 
     public AlarmController(AlarmRepository alarmRepository, WebradioRepository webradioRepository, Scheduler scheduler) {
         this.alarmRepository = alarmRepository;
@@ -74,7 +74,7 @@ public class AlarmController {
                              @Valid @RequestBody AlarmDTO alarmDetails) {
         scheduleAlarm(alarmDetails.getWebradio()
                 , alarmDetails.isActive()
-                , Long.valueOf(alarmDetails.getAutoStopMinutes())
+                , (long) alarmDetails.getAutoStopMinutes()
                 , getCronSchedule(alarmDetails));
 
         return saveAlarm(alarmDetails, alarmId);

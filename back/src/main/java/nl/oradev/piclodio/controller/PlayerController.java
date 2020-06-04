@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 @RestController
 public class PlayerController {
 
-    private static Logger logger = LoggerFactory.getLogger(PlayerController.class);
-    private VlcPlayer vlcplayer;
-    private WebradioRepository webradioRepository;
+    private static final Logger logger = LoggerFactory.getLogger(PlayerController.class);
+    private final VlcPlayer vlcplayer;
+    private final WebradioRepository webradioRepository;
 
     public PlayerController(WebradioRepository webradioRepository, VlcPlayer vlcPlayer) {
         this.webradioRepository = webradioRepository;
@@ -35,7 +35,7 @@ public class PlayerController {
         logger.info("Webradio: {}", player.getWebradio());
         logger.info("Status: {}", player.getStatus());
 
-        if (player.getStatus().equals("on")) {
+        if (Objects.equals(player.getStatus(),"on")) {
             return startPlayer(player.getWebradio(), 0L);
         } else {
             return stopPlayer();
@@ -62,7 +62,7 @@ public class PlayerController {
 
     private String setDefaultAndSave(Long webradioId,  Webradio webradio) {
         if (webradio.isDefault()) {
-            if (webradio.getId().equals(webradioId)) {
+            if (Objects.equals(webradio.getId(), webradioId)) {
                 webradio.setDefault(true);
                 webradioRepository.save(webradio);
                 return webradio.getUrl();
@@ -70,7 +70,7 @@ public class PlayerController {
                 webradio.setDefault(false);
                 webradioRepository.save(webradio);
             }
-        } else if (webradio.getId().equals(webradioId)) {
+        } else if (Objects.equals(webradio.getId(), webradioId)) {
             webradio.setDefault(true);
             webradioRepository.save(webradio);
             return webradio.getUrl();
