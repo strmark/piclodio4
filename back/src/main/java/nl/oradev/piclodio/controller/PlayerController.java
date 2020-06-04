@@ -35,7 +35,7 @@ public class PlayerController {
         logger.info("Webradio: {}", player.getWebradio());
         logger.info("Status: {}", player.getStatus());
 
-        if (Objects.equals(player.getStatus(),"on")) {
+        if (player.getStatus().equals("on")) {
             return startPlayer(player.getWebradio(), 0L);
         } else {
             return stopPlayer();
@@ -62,7 +62,7 @@ public class PlayerController {
 
     private String setDefaultAndSave(Long webradioId,  Webradio webradio) {
         if (webradio.isDefault()) {
-            if (Objects.equals(webradio.getId(), webradioId)) {
+            if (webradio.getId().equals(webradioId)) {
                 webradio.setDefault(true);
                 webradioRepository.save(webradio);
                 return webradio.getUrl();
@@ -70,7 +70,7 @@ public class PlayerController {
                 webradio.setDefault(false);
                 webradioRepository.save(webradio);
             }
-        } else if (Objects.equals(webradio.getId(), webradioId)) {
+        } else if (webradio.getId().equals(webradioId)) {
             webradio.setDefault(true);
             webradioRepository.save(webradio);
             return webradio.getUrl();
