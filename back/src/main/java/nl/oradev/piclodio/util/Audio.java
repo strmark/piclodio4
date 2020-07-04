@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 
 public class Audio {
 
+    // HARDWARE_DESCRIPTION hw:0 or hw:1
+    // HARDWARE_ITEM PCM, Speaker or Headphone
     private static final String HARDWARE_DESCRIPTION = "hw:0";
     private static final String HARDWARE_ITEM = "Headphone";
 
