@@ -14,6 +14,8 @@ sudo apt-get install apt-transport-https
 sudo apt-get install git openjdk-11-jdk vlc libasound2-dev
 ```
 
+Download maven from https://maven.apache.org/ and follow the installation instruction within binary tar or zip.
+
 Clone the project
 ``` bash
 git clone https://github.com/strmark/piclodio4.git
@@ -34,16 +36,16 @@ cp database/piclodio.db.* /home/pi/database/
 ## Run the backend
 
 ### VLC player setting
-Start the VLC player on the Raspberry Pi and select the USB audio device.
+Start the VLC player on the Raspberry Pi and select the Alsa Audio Output as the Output module.
 
 ### Manually with mvn
-```bash
+``` bash
 cd back
 mvn spring-boot:run
 ```
 
 ### Automatically at each startup with systemd (Prod)
-```bash
+``` bash
 mvn package
 =======
 cp target/piclodio-0.0.1-SNAPSHOT.jar /home/pi/piclodio/
