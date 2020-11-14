@@ -34,27 +34,27 @@ import { AlarmClockComponent } from './alarm-clock/alarm-clock.component';
     HttpClientModule,
     FileUploadModule,
     RouterModule.forRoot([
-      {
+    {
         path: '',
         component: HomepageComponent
-      },
-      {
+    },
+    {
         path: 'homepage',
         component: HomepageComponent
-      },
-      {
+    },
+    {
         path: 'webradio',
         component: WebRadioComponent
-      },
-      {
+    },
+    {
         path: 'alarm',
         component: AlarmClockComponent
-      },
-      {
+    },
+    {
         path: 'option',
         component: OptionComponent
-      }
-   ])
+    }
+], { relativeLinkResolution: 'legacy' })
   ],
   providers: [WebRadioService, AlarmClockService, SystemDateService, PlayerService, OptionService],
   bootstrap: [AppComponent]
