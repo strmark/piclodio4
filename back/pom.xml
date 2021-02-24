@@ -5,8 +5,8 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.4.2</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<version>2.4.3</version>
+		<relativePath/>
 	</parent>
 	<groupId>nl.oradev</groupId>
 	<artifactId>piclodio</artifactId>
@@ -16,7 +16,7 @@
 
 	<properties>
 		<java.version>11</java.version>
-		<spring.version>2.4.2</spring.version>
+		<spring.version>2.4.3</spring.version>
 		<h2.version>1.4.200</h2.version>
 	</properties>
 
