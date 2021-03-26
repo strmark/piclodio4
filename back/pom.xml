@@ -23,7 +23,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>norg.springframework.boot</groupId>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 			<version>${spring.version}</version>
 			<exclusions>
