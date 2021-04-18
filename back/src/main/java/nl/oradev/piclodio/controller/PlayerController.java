@@ -6,8 +6,13 @@ import nl.oradev.piclodio.repository.WebradioRepository;
 import nl.oradev.piclodio.util.VlcPlayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -35,7 +40,7 @@ public class PlayerController {
         logger.info("Webradio: {}", player.getWebradio());
         logger.info("Status: {}", player.getStatus());
 
-        if (Objects.equals(player.getStatus(),"on")) {
+        if (Objects.equals(player.getStatus(), "on")) {
             return startPlayer(player.getWebradio(), 0L);
         } else {
             return stopPlayer();
@@ -45,7 +50,7 @@ public class PlayerController {
     public String startPlayer(Long webradioId, Long autoStopMinutes) {
         logger.info("Webradio: id = {}", webradioId);
         logger.info("Webradio: autostop = {}", autoStopMinutes);
-        String url = null;
+        String url;
 
         if (webradioId == null) {
             url = getWebradioUrl(webradioRepository.findAll());
@@ -60,7 +65,7 @@ public class PlayerController {
         return startPlayer(url, autoStopMinutes);
     }
 
-    private String setDefaultAndSave(Long webradioId,  Webradio webradio) {
+    private String setDefaultAndSave(Long webradioId, Webradio webradio) {
         if (webradio.isDefault()) {
             if (Objects.equals(webradio.getId(), webradioId)) {
                 webradio.setDefault(true);
@@ -82,7 +87,7 @@ public class PlayerController {
         return webradioList
                 .stream()
                 .filter(Webradio::isDefault)
-                .map(Webradio::<String>getUrl)
+                .map(Webradio::getUrl)
                 .findAny()
                 .orElse(null);
     }
@@ -91,8 +96,9 @@ public class PlayerController {
         try {
             // no timer so minutes 0l
             vlcplayer.open(url, autoStopMinutes);
-        } catch (Exception exeception) {
+        } catch (InterruptedException | IOException exeception) {
             logger.error(exeception.getMessage(), exeception);
+            Thread.currentThread().interrupt();
         }
         return "{\"status\":\"on\"}";
     }

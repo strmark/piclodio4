@@ -39,7 +39,9 @@ public class Alarm {
     private boolean sunday;
     private int hour;
     private int minute;
+    @Column(name = "auto_stop_minutes")
     private int autoStopMinutes;
+    @Column(name = "is_active")
     private boolean isActive;
     private long webradio;
 

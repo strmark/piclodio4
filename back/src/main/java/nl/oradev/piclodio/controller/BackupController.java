@@ -37,7 +37,7 @@ public class BackupController {
     public List<Backup> uploadFile(MultipartHttpServletRequest request) throws IOException {
         MultipartFile file = request.getFile(request.getFileNames().next());
         assert file != null;
-        String fileName = file.getOriginalFilename();
+        String fileName = file.getOriginalFilename().replaceAll("[\n|\r|\t]", "_");;
         File dir = new File(TEMP_FILE);
         logger.info("Writing file");
         if (dir.isDirectory()) {

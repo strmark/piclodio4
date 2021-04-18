@@ -16,6 +16,7 @@ public class AlarmDTO {
     private int hour;
     private int minute;
     private int autoStopMinutes;
+
     private boolean isActive;
     private long webradio;
 
