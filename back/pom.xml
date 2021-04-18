@@ -15,10 +15,13 @@
 	<description>Backend project with Spring Boot</description>
 
 	<properties>
-		<java.version>15</java.version>
+		<java.version>11</java.version>
 		<spring.version>2.4.5</spring.version>
 		<h2.version>1.4.200</h2.version>
 		<swagger.version>3.0.0</swagger.version>
+		<sonar.projectKey>strmark_piclodio4</sonar.projectKey>
+		<sonar.organization>strmark</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 
 	<dependencies>
@@ -76,6 +79,7 @@
 			<version>${spring.version}</version>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 
 	<build>
