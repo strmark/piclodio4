@@ -22,6 +22,7 @@ import java.util.List;
 public class BackupController {
     private static final Logger logger = LoggerFactory.getLogger(BackupController.class);
     private static final String TEMP_FILE = "/tmp/backup_mp3";
+    private static final String FILE = "fallback.mp3";
     private final BackupRepository backupRepository;
 
     public BackupController(BackupRepository backupRepository) {
@@ -36,14 +37,11 @@ public class BackupController {
     @PostMapping(path = "/backup")
     public List<Backup> uploadFile(MultipartHttpServletRequest request) throws IOException {
         MultipartFile file = request.getFile(request.getFileNames().next());
-        assert file != null;
-        String fileName = file.getOriginalFilename();
         File dir = new File(TEMP_FILE);
-        logger.info("Writing file");
+        assert file != null;
         if (dir.isDirectory()) {
-            assert fileName != null;
-            File serverFile = new File(dir, fileName);
-            logger.info("Writing to file {}", fileName);
+            File serverFile = new File(dir, FILE);
+            logger.info("Writing to file");
             try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile))) {
                 stream.write(file.getBytes());
             }
@@ -54,7 +52,7 @@ public class BackupController {
                 .forEach(backupRepository::delete);
 
         Backup backup = new Backup();
-        backup.setBackupFile("backup_mp3/" + fileName);
+        backup.setBackupFile("backup_mp3/" + FILE);
         backupRepository.save(backup);
         return backupRepository.findAll();
     }
