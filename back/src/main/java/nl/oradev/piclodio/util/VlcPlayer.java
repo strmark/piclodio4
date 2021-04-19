@@ -28,7 +28,7 @@ public class VlcPlayer {
             logger.info("Starting VlcPlayer process:{}", command);
             vlcplayerProcess = Runtime.getRuntime().exec(command);
 
-            PipedInputStream readFrom = new PipedInputStream(1024 * 1024);
+            var readFrom = new PipedInputStream(1024 * 1024);
             vlcplayerOutErr = new BufferedReader(new InputStreamReader(readFrom));
 
             if (autoStopMinutes > 0 &&

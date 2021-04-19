@@ -37,7 +37,7 @@ public class WebradioController {
 
     @PostMapping("/webradio")
     public Webradio createWebradio(@Valid @RequestBody WebradioDTO webradioDTO) {
-        Webradio webradio = new Webradio();
+        var webradio = new Webradio();
         webradio.setId(webradioDTO.getId());
         webradio.setName(webradioDTO.getName());
         webradio.setDefault(webradioDTO.isDefault());
@@ -54,7 +54,7 @@ public class WebradioController {
     @PutMapping("/webradio/{id}")
     public Webradio updateWebradio(@PathVariable(value = "id") Long webradioId,
                                    @Valid @RequestBody WebradioDTO webradioDTO) {
-        Webradio webradio = webradioRepository.findById(webradioId)
+        var webradio = webradioRepository.findById(webradioId)
                 .orElseThrow(() -> new ResourceNotFoundException(WEBRADIO, "id", webradioId));
 
         webradio.setName(webradioDTO.getName());
@@ -65,7 +65,7 @@ public class WebradioController {
 
     @DeleteMapping("/webradio/{id}")
     public ResponseEntity<Long> deleteWebradio(@PathVariable(value = "id") Long webradioId) {
-        Webradio webradio = webradioRepository.findById(webradioId)
+        var webradio = webradioRepository.findById(webradioId)
                 .orElseThrow(() -> new ResourceNotFoundException(WEBRADIO, "id", webradioId));
 
         webradioRepository.delete(webradio);

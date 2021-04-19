@@ -15,8 +15,8 @@ public class SystemDateController {
 
     @GetMapping(path = "/systemdate")
     public String getAlarm() {
-        ZoneId amsterdam = ZoneId.of("Europe/Amsterdam");
-        ZonedDateTime now = ZonedDateTime.of(LocalDateTime.now(), amsterdam);
+        var amsterdam = ZoneId.of("Europe/Amsterdam");
+        var now = ZonedDateTime.of(LocalDateTime.now(), amsterdam);
 
         return "\"" + now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + "\"";
     }

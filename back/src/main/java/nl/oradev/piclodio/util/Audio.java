@@ -25,7 +25,7 @@ public class Audio {
     }
 
     public static Float getSpeakerOutputVolume() {
-        Line line = getSpeakerOutputLine();
+        var line = getSpeakerOutputLine();
         if (line != null) {
             boolean opened = open(line);
             try {
@@ -47,7 +47,7 @@ public class Audio {
             throw new IllegalArgumentException(
                     "VolumeTransfer can only be set to a value from 0 to 1. Given value is illegal: " + value);
         }
-        Line line = getSpeakerOutputLine();
+        var line = getSpeakerOutputLine();
         if (line != null) {
             boolean opened = open(line);
             try {
@@ -68,7 +68,7 @@ public class Audio {
     }
 
     public static Boolean getSpeakerOutputMute() {
-        Line line = getSpeakerOutputLine();
+        var line = getSpeakerOutputLine();
         if (line != null) {
             boolean opened = open(line);
             try {
@@ -86,7 +86,7 @@ public class Audio {
     }
 
     public static void setSpeakerOutputMute(boolean value) {
-        Line line = getSpeakerOutputLine();
+        var line = getSpeakerOutputLine();
         if (line != null) {
             boolean opened = open(line);
             try {
@@ -150,8 +150,8 @@ public class Audio {
             return control;
         }
         if (control instanceof CompoundControl) {
-            CompoundControl compoundControl = (CompoundControl) control;
-            Control member = findControl(type, compoundControl.getMemberControls());
+            var compoundControl = (CompoundControl) control;
+            var member = findControl(type, compoundControl.getMemberControls());
             if (member != null) {
                 return member;
             }

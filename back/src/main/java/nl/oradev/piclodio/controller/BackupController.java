@@ -37,12 +37,12 @@ public class BackupController {
     @PostMapping(path = "/backup")
     public List<Backup> uploadFile(MultipartHttpServletRequest request) throws IOException {
         MultipartFile file = request.getFile(request.getFileNames().next());
-        File dir = new File(TEMP_FILE);
+        var dir = new File(TEMP_FILE);
         assert file != null;
         if (dir.isDirectory()) {
-            File serverFile = new File(dir, FILE);
+            var serverFile = new File(dir, FILE);
             logger.info("Writing to file");
-            try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile))) {
+            try (var stream = new BufferedOutputStream(new FileOutputStream(serverFile))) {
                 stream.write(file.getBytes());
             }
         }
@@ -51,7 +51,7 @@ public class BackupController {
                 .findAll()
                 .forEach(backupRepository::delete);
 
-        Backup backup = new Backup();
+        var backup = new Backup();
         backup.setBackupFile("backup_mp3/" + FILE);
         backupRepository.save(backup);
         return backupRepository.findAll();

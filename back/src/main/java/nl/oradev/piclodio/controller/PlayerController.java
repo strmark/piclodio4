@@ -38,11 +38,12 @@ public class PlayerController {
     @PostMapping(path = "/player", produces = "application/json")
     public String updatePlayer(@RequestBody PlayerRequest player) {
         logger.info("Webradio: {}", player.getWebradio());
-        logger.info("Status: {}", player.getStatus());
 
         if (Objects.equals(player.getStatus(), "on")) {
+            logger.info("Status: on");
             return startPlayer(player.getWebradio(), 0L);
         } else {
+            logger.info("Status: off");
             return stopPlayer();
         }
     }
