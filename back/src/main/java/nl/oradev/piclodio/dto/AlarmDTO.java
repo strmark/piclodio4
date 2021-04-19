@@ -1,8 +1,5 @@
 package nl.oradev.piclodio.dto;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AlarmDTO {
     private Long id;
     private String name;
