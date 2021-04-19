@@ -1,7 +1,6 @@
 package nl.oradev.piclodio.job;
 
 import nl.oradev.piclodio.controller.PlayerController;
-import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +23,7 @@ public class AlarmJob extends QuartzJobBean {
         logger.info("Executing Job with key {}", jobExecutionContext.getJobDetail().getKey());
 
         logger.info("Start player");
-        JobDataMap jobDataMap = jobExecutionContext.getMergedJobDataMap();
+        var jobDataMap = jobExecutionContext.getMergedJobDataMap();
         playerController.startPlayer(jobDataMap.getString("url"), jobDataMap.getLong("autoStopMinutes"));
     }
 

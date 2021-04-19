@@ -82,11 +82,11 @@ public class AlarmController {
 
     @DeleteMapping(path = "/alarms/{id}")
     public ResponseEntity<Long> deleteAlarm(@PathVariable(value = "id") Long alarmId) {
-        Alarm alarm = alarmRepository.findById(alarmId)
+        var alarm = alarmRepository.findById(alarmId)
                 .orElseThrow(() -> new ResourceNotFoundException(ALARM, "id", alarmId));
 
         try {
-            JobKey jobkey = new JobKey("PICLODIO" + alarm.getWebradio(), ALARM_JOBS);
+            var jobkey = new JobKey("PICLODIO" + alarm.getWebradio(), ALARM_JOBS);
             if (scheduler.checkExists(jobkey)) {
                 logger.info("Delete schedule");
                 scheduler.deleteJob(jobkey);
@@ -106,19 +106,19 @@ public class AlarmController {
                 webradio = webradioOptional.get();
             }
 
-            JobKey jobkey = new JobKey(PICLODIO + webradioId, ALARM_JOBS);
+            var jobkey = new JobKey(PICLODIO + webradioId, ALARM_JOBS);
             if (scheduler.checkExists(jobkey)) {
                 logger.info("Already exists");
                 scheduler.deleteJob(jobkey);
             }
             if (isActive) {
                 //JobDetail jobDetail = buildJobDetail(alarmDetails.getName()+'_'+alarmDetails.getWebradio()
-                JobDetail jobDetail = buildJobDetail(PICLODIO + webradioId
+                var jobDetail = buildJobDetail(PICLODIO + webradioId
                         , webradioId
                         , autoStopMinutes
                         , webradio != null ? webradio.getUrl() : "dummy");
 
-                Trigger trigger = buildJobTrigger(jobDetail, cronSchedule, ZonedDateTime.now());
+                var trigger = buildJobTrigger(jobDetail, cronSchedule, ZonedDateTime.now());
 
                 scheduler.scheduleJob(jobDetail, trigger);
 
@@ -138,7 +138,7 @@ public class AlarmController {
                 + alarmDetails.getMinute() + " "
                 + alarmDetails.getHour()
                 + " ? * ";
-        String cronDays= "";
+        var cronDays= "";
         cronDays = stringAppend(cronDays, alarmDetails.isMonday(), "MON");
         cronDays = stringAppend(cronDays, alarmDetails.isTuesday(), "TUE");
         cronDays = stringAppend(cronDays, alarmDetails.isWednesday(), "WED");
@@ -157,7 +157,7 @@ public class AlarmController {
     }
 
     private Alarm saveAlarm(AlarmDTO alarmDTO, Long alarmId) {
-        Alarm alarm = new Alarm();
+        var alarm = new Alarm();
         if (alarmId != null) {
             alarm = alarmRepository.findById(alarmId)
                     .orElseThrow(() -> new ResourceNotFoundException(ALARM, "id", alarmId));
@@ -179,7 +179,7 @@ public class AlarmController {
     }
 
     private JobDetail buildJobDetail(String alarmName, Long webradio, Long autoStopMinutes, String url) {
-        JobDataMap jobDataMap = new JobDataMap();
+        var jobDataMap = new JobDataMap();
         jobDataMap.put("webradio", webradio);
         jobDataMap.put("autoStopMinutes", autoStopMinutes);
         jobDataMap.put("url", url);
