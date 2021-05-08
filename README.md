@@ -1,3 +1,6 @@
+[![Java CI with Maven](https://github.com/strmark/piclodio4/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/strmark/piclodio4/actions/workflows/maven.yml)
+
+
 # Piclodio
 
 This repository was inspired by from https://github.com/Sispheor/piclodio3/.
