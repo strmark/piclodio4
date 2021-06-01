@@ -18,7 +18,7 @@
 		<java.version>11</java.version>
 		<spring.version>2.5.0</spring.version>
 		<h2.version>1.4.200</h2.version>
-		<swagger.version>3.0.0</swagger.version>
+		<swagger.version>1.5.9</swagger.version>
 		<sonar.projectKey>strmark_piclodio4</sonar.projectKey>
 		<sonar.organization>strmark</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -63,13 +63,13 @@
 		</dependency>
 
 		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-boot-starter</artifactId>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-data-rest</artifactId>
 			<version>${swagger.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
 			<version>${swagger.version}</version>
 		</dependency>
 

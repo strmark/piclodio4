@@ -1,0 +1,65 @@
+# Enabling H2 Console
+spring:
+  h2:
+    console:
+      enabled: true
+  # H2 database
+  datasource:
+    name: piclodio
+    driverClassName: org.h2.Driver
+    initialize: false
+    url: jdbc:h2:file:./database/piclodio.db;DB_CLOSE_ON_EXIT=FALSE;IFEXISTS=TRUE;DB_CLOSE_DELAY=-1;
+    username: pi
+    password: pi
+  ## Hibernate Properties
+  # The SQL dialect makes Hibernate generate better SQL for the chosen database
+  jpa:
+    properties:
+      hibernate:
+        dialect:  org.hibernate.dialect.H2Dialect
+  # Hibernate ddl auto (create, create-drop, validate, update)
+    hibernate:
+      ddl-auto: update
+  ## QuartzProperties
+  quartz:
+    job-store-type: jdbc
+    properties:
+      org:
+        quartz:
+          threadPool:
+            threadCount: 5
+
+server:
+  port: 8000
+
+## logging
+logging:
+  level:
+    org:
+      springframework:
+        web: ERROR
+    nl:
+      oradev: DEBUG
+  file:
+    name: ${java.io.tmpdir}/application.log
+
+## VLCPlayer
+vlc:
+  player:
+    path: /usr/bin/cvlc
+
+# swagger
+springdoc:
+  api-docs:
+    groups:
+      enabled: true
+  swagger-ui:
+    display-request-duration: true
+    groups-order: DESC
+    operationsSorter: method
+    disable-swagger-default-url: true
+    use-root-path: true
+  show-actuator: true
+  group-configs:
+    - group: piclodio
+      paths-to-match: /**
