@@ -25,4 +25,4 @@ Installation procedures have been tested on a Raspberry Pi(raspian) and on debia
 
 Copyright (c) 2019. All rights reserved.
 
-Piclodio is covered by the MIT license, a permissive free software license that lets you do anything you want with the source code, as long as you provide back attribution and "don't hold you liable". For the full license text see the [LICENSE.md](LICENSE.md) file.
+Piclodio is covered by the MIT license, a permissive free software license that lets you do anything you want with the source code, as long as you provide back attribution and "don't hold you liable". For the full license text see the [LICENSE.md](LICENSE) file.
