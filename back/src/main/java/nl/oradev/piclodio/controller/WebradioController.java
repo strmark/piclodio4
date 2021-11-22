@@ -38,10 +38,10 @@ public class WebradioController {
     @PostMapping("/webradio")
     public Webradio createWebradio(@Valid @RequestBody WebradioDTO webradioDTO) {
         var webradio = new Webradio();
-        webradio.setId(webradioDTO.getId());
-        webradio.setName(webradioDTO.getName());
+        webradio.setId(webradioDTO.id());
+        webradio.setName(webradioDTO.name());
         webradio.setDefault(webradioDTO.isDefault());
-        webradio.setUrl(webradioDTO.getUrl());
+        webradio.setUrl(webradioDTO.url());
         return webradioRepository.save(webradio);
     }
 
@@ -57,8 +57,8 @@ public class WebradioController {
         var webradio = webradioRepository.findById(webradioId)
                 .orElseThrow(() -> new ResourceNotFoundException(WEBRADIO, "id", webradioId));
 
-        webradio.setName(webradioDTO.getName());
-        webradio.setUrl(webradioDTO.getUrl());
+        webradio.setName(webradioDTO.name());
+        webradio.setUrl(webradioDTO.url());
         webradio.setDefault(webradioDTO.isDefault());
         return webradioRepository.save(webradio);
     }

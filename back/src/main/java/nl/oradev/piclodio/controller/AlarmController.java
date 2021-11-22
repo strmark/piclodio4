@@ -72,9 +72,9 @@ public class AlarmController {
     @PutMapping(path = "/alarms/{id}")
     public Alarm updateAlarm(@PathVariable(value = "id") Long alarmId,
                              @Valid @RequestBody AlarmDTO alarmDetails) {
-        scheduleAlarm(alarmDetails.getWebradio()
+        scheduleAlarm(alarmDetails.webradio()
                 , alarmDetails.isActive()
-                , (long) alarmDetails.getAutoStopMinutes()
+                , (long) alarmDetails.autoStopMinutes()
                 , getCronSchedule(alarmDetails));
 
         return saveAlarm(alarmDetails, alarmId);
@@ -135,17 +135,17 @@ public class AlarmController {
     private String getCronSchedule(AlarmDTO alarmDetails) {
         //0 45 6 ? * MON,TUE,WED,THU,FRI *
         String cronSchedule = "0 "
-                + alarmDetails.getMinute() + " "
-                + alarmDetails.getHour()
+                + alarmDetails.minute() + " "
+                + alarmDetails.hour()
                 + " ? * ";
         var cronDays= "";
-        cronDays = stringAppend(cronDays, alarmDetails.isMonday(), "MON");
-        cronDays = stringAppend(cronDays, alarmDetails.isTuesday(), "TUE");
-        cronDays = stringAppend(cronDays, alarmDetails.isWednesday(), "WED");
-        cronDays = stringAppend(cronDays, alarmDetails.isThursday(), "THU");
-        cronDays = stringAppend(cronDays, alarmDetails.isFriday(), "FRI");
-        cronDays = stringAppend(cronDays, alarmDetails.isSaturday(), "SAT");
-        cronDays = stringAppend(cronDays, alarmDetails.isSunday(), "SUN");
+        cronDays = stringAppend(cronDays, alarmDetails.monday(), "MON");
+        cronDays = stringAppend(cronDays, alarmDetails.tuesday(), "TUE");
+        cronDays = stringAppend(cronDays, alarmDetails.wednesday(), "WED");
+        cronDays = stringAppend(cronDays, alarmDetails.thursday(), "THU");
+        cronDays = stringAppend(cronDays, alarmDetails.friday(), "FRI");
+        cronDays = stringAppend(cronDays, alarmDetails.saturday(), "SAT");
+        cronDays = stringAppend(cronDays, alarmDetails.sunday(), "SUN");
         return cronSchedule + cronDays + " *";
     }
 
@@ -162,19 +162,19 @@ public class AlarmController {
             alarm = alarmRepository.findById(alarmId)
                     .orElseThrow(() -> new ResourceNotFoundException(ALARM, "id", alarmId));
         }
-        alarm.setMinute(alarmDTO.getMinute());
-        alarm.setHour(alarmDTO.getHour());
-        alarm.setName(alarmDTO.getName());
-        alarm.setMonday(alarmDTO.isMonday());
-        alarm.setTuesday(alarmDTO.isTuesday());
-        alarm.setWednesday(alarmDTO.isWednesday());
-        alarm.setThursday(alarmDTO.isThursday());
-        alarm.setFriday(alarmDTO.isFriday());
-        alarm.setSaturday(alarmDTO.isSaturday());
-        alarm.setSunday(alarmDTO.isSunday());
-        alarm.setAutoStopMinutes(alarmDTO.getAutoStopMinutes());
+        alarm.setMinute(alarmDTO.minute());
+        alarm.setHour(alarmDTO.hour());
+        alarm.setName(alarmDTO.name());
+        alarm.setMonday(alarmDTO.monday());
+        alarm.setTuesday(alarmDTO.tuesday());
+        alarm.setWednesday(alarmDTO.wednesday());
+        alarm.setThursday(alarmDTO.thursday());
+        alarm.setFriday(alarmDTO.friday());
+        alarm.setSaturday(alarmDTO.saturday());
+        alarm.setSunday(alarmDTO.sunday());
+        alarm.setAutoStopMinutes(alarmDTO.autoStopMinutes());
         alarm.setActive(alarmDTO.isActive());
-        alarm.setWebradio(alarmDTO.getWebradio());
+        alarm.setWebradio(alarmDTO.webradio());
         return alarmRepository.save(alarm);
     }
 
