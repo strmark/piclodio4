@@ -1,6 +1,5 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
-import { AlarmClockComponent } from './alarm-clock.component';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
+import {AlarmClockComponent} from './alarm-clock.component';
 
 describe('AlarmClockComponent', () => {
   let component: AlarmClockComponent;
@@ -8,9 +7,9 @@ describe('AlarmClockComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ AlarmClockComponent ]
+      declarations: [AlarmClockComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

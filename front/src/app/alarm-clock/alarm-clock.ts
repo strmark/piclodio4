@@ -1,19 +1,17 @@
-import { WebRadio } from '../web-radio/web-radio';
-
 export class AlarmClock {
     id: number;
-    name: string = '';
-    monday: boolean  = false;
-    tuesday: boolean  = false;
-    wednesday: boolean  = false;
-    thursday: boolean  = false;
-    friday: boolean  = false;
-    saturday: boolean  = false;
-    sunday: boolean  = false;
+    name = '';
+    monday  = false;
+    tuesday  = false;
+    wednesday  = false;
+    thursday  = false;
+    friday  = false;
+    saturday  = false;
+    sunday  = false;
     hour: number;
     minute: number;
     autoStopMinutes: number;
-    active: boolean = false;
+    active = false;
     webradio: number;
 
     constructor(values: Object = {}) {

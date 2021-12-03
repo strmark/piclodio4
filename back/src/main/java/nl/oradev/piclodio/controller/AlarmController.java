@@ -73,7 +73,7 @@ public class AlarmController {
     public Alarm updateAlarm(@PathVariable(value = "id") Long alarmId,
                              @Valid @RequestBody AlarmDTO alarmDetails) {
         scheduleAlarm(alarmDetails.webradio()
-                , alarmDetails.isActive()
+                , alarmDetails.active()
                 , (long) alarmDetails.autoStopMinutes()
                 , getCronSchedule(alarmDetails));
 
@@ -173,7 +173,7 @@ public class AlarmController {
         alarm.setSaturday(alarmDTO.saturday());
         alarm.setSunday(alarmDTO.sunday());
         alarm.setAutoStopMinutes(alarmDTO.autoStopMinutes());
-        alarm.setActive(alarmDTO.isActive());
+        alarm.setActive(alarmDTO.active());
         alarm.setWebradio(alarmDTO.webradio());
         return alarmRepository.save(alarm);
     }

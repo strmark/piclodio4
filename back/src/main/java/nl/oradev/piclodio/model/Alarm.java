@@ -9,7 +9,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -24,7 +23,7 @@ import java.util.Date;
         allowGetters = true)
 public class Alarm {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "alarm_id")
     private Long id;
 
@@ -37,7 +36,9 @@ public class Alarm {
     private boolean friday;
     private boolean saturday;
     private boolean sunday;
+    @Column(name = "hours")
     private int hour;
+    @Column(name = "minutes")
     private int minute;
     @Column(name = "auto_stop_minutes")
     private int autoStopMinutes;

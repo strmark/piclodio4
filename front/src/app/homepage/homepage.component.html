@@ -19,7 +19,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let active_alarm of active_alarms">
+      <tr *ngFor="let active_alarm of activeAlarms">
         <td class="text-center">{{active_alarm.name}}</td>
         <td class="{{ active_alarm.monday  ? 'alarm-on' : 'alarm-off' }}"></td>
         <td class="{{ active_alarm.tuesday  ? 'alarm-on' : 'alarm-off' }}"></td>
@@ -35,7 +35,7 @@
   </div>
 <h3>Player</h3>
 <div class="card card-body bg-light"
- *ngFor="let active_webradio of active_webradios">{{active_webradio.name}}
+ *ngFor="let active_webradio of activeWebradios">{{active_webradio.name}}
 </div>
 <br>
 <div *ngIf="playerLoaded">

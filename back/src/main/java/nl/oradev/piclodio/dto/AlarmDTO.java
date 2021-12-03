@@ -13,7 +13,7 @@ public record AlarmDTO(
         int hour,
         int minute,
         int autoStopMinutes,
-        boolean isActive,
+        boolean active,
         long webradio) {
 }
 

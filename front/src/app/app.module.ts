@@ -1,17 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { RouterModule,  Routes }   from '@angular/router';
+import { RouterModule} from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient} from '@angular/common/http';
+import { HttpClientModule} from '@angular/common/http';
 import { FileUploadModule } from 'ng2-file-upload';
-
 import { OptionService } from './option/option.service';
 import { PlayerService } from './player/player.service';
 import { SystemDateService } from './homepage/systemdate.service';
-import { AlarmClockService} from "./alarm-clock/alarm-clock.service";
+import { AlarmClockService} from './alarm-clock/alarm-clock.service';
 import { WebRadioService } from './web-radio/web-radio.service';
-
 import { AppComponent } from './app.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { WebRadioComponent } from './web-radio/web-radio.component';
