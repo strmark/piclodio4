@@ -1,7 +1,7 @@
 export class Volume {
     volume: number;
 
-    constructor(values: Object = {}) {
+    constructor(values: any = {}) {
         Object.assign(this, values);
     }
 }

@@ -4,7 +4,7 @@ export class WebRadio {
     url = '';
     default = false;
 
-    constructor(values: Object = {}) {
+    constructor(values: any = {}) {
         Object.assign(this, values);
     }
 }

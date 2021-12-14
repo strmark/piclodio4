@@ -14,7 +14,7 @@ export class AlarmClock {
     active = false;
     webradio: number;
 
-    constructor(values: Object = {}) {
+    constructor(values: any = {}) {
         Object.assign(this, values);
     }
 }

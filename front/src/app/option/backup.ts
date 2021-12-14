@@ -2,7 +2,7 @@ export class Backup {
     id: number;
     backupFile: string;
 
-    constructor(values: Object = {}) {
+    constructor(values: any = {}) {
         Object.assign(this, values);
     }
 
