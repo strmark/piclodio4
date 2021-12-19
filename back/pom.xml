@@ -18,7 +18,7 @@
 		<java.version>17</java.version>
 		<spring.version>2.6.1</spring.version>
 		<h2.version>2.0.202</h2.version>
-		<swagger.version>1.6.1</swagger.version>
+		<swagger.version>1.6.2</swagger.version>
 		<sonar.projectKey>strmark_piclodio4</sonar.projectKey>
 		<sonar.organization>strmark</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
