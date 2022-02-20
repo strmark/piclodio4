@@ -35,7 +35,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin
 @RestController
 public class AlarmController {
     private static final Logger logger = LoggerFactory.getLogger(AlarmController.class);

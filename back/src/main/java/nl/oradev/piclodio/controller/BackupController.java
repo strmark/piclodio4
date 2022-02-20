@@ -17,7 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin
 @RestController
 public class BackupController {
     private static final Logger logger = LoggerFactory.getLogger(BackupController.class);
@@ -48,8 +48,7 @@ public class BackupController {
         }
 
         backupRepository
-                .findAll()
-                .forEach(backupRepository::delete);
+                .deleteAll();
 
         var backup = new Backup();
         backup.setBackupFile("backup_mp3/" + FILE);

@@ -31,7 +31,7 @@ public class Audio {
                 }
             }
         }
-        return null;
+        return 0.0f;
     }
 
     public static void setSpeakerOutputVolume(float value) {

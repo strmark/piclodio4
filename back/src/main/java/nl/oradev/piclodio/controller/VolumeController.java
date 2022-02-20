@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+import static nl.oradev.piclodio.util.Audio.getSpeakerOutputVolume;
+
+@CrossOrigin
 @RestController
 public class VolumeController {
 
@@ -18,7 +20,7 @@ public class VolumeController {
 
     @GetMapping(path = "/volume", produces = "application/json")
     public String getVolume() {
-        int volume = (int) Math.ceil((double) Audio.getSpeakerOutputVolume() * 100);
+        int volume = (int) Math.ceil( getSpeakerOutputVolume() * 100);
         volume = Math.max(volume, 0);
         volume = Math.min(volume, 100);
         return "{\"volume\":" + volume + "}";
