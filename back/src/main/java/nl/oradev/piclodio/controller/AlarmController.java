@@ -138,7 +138,7 @@ public class AlarmController {
                 + alarmDetails.minute() + " "
                 + alarmDetails.hour()
                 + " ? * ";
-        var cronDays= "";
+        var cronDays = "";
         cronDays = stringAppend(cronDays, alarmDetails.monday(), "MON");
         cronDays = stringAppend(cronDays, alarmDetails.tuesday(), "TUE");
         cronDays = stringAppend(cronDays, alarmDetails.wednesday(), "WED");
@@ -151,7 +151,7 @@ public class AlarmController {
 
     private String stringAppend(String cronDays, boolean isDay, String day) {
         if (isDay) {
-            return (cronDays.isEmpty()?day:cronDays + "," + day);
+            return (cronDays.isEmpty() ? day : cronDays + "," + day);
         }
         return "";
     }

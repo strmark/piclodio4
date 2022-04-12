@@ -97,8 +97,8 @@ public class PlayerController {
         try {
             // no timer so minutes 0l
             vlcplayer.open(url, autoStopMinutes);
-        } catch (InterruptedException | IOException exeception) {
-            logger.error(exeception.getMessage(), exeception);
+        } catch (InterruptedException | IOException exception) {
+            logger.error(exception.getMessage(), exception);
             Thread.currentThread().interrupt();
         }
         return "{\"status\":\"on\"}";

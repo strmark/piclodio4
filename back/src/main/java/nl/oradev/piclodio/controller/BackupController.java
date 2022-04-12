@@ -47,8 +47,7 @@ public class BackupController {
             }
         }
 
-        backupRepository
-                .deleteAll();
+        backupRepository.deleteAll();
 
         var backup = new Backup();
         backup.setBackupFile("backup_mp3/" + FILE);
