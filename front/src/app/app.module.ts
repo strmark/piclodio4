@@ -52,7 +52,7 @@ import { AlarmClockComponent } from './alarm-clock/alarm-clock.component';
         path: 'option',
         component: OptionComponent
     }
-], { relativeLinkResolution: 'legacy' })
+], {})
   ],
   providers: [WebRadioService, AlarmClockService, SystemDateService, PlayerService, OptionService],
   bootstrap: [AppComponent]
