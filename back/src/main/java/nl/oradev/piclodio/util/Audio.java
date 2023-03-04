@@ -1,18 +1,10 @@
 package nl.oradev.piclodio.util;
 
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.BooleanControl;
-import javax.sound.sampled.CompoundControl;
-import javax.sound.sampled.Control;
+import javax.sound.sampled.*;
 import javax.sound.sampled.Control.Type;
-import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.Line;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.Mixer;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class Audio {
 
@@ -158,7 +150,7 @@ public class Audio {
     public static List<Mixer> getMixers() {
         return Arrays.stream(AudioSystem.getMixerInfo())
                 .map(AudioSystem::getMixer)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public static List<Line> getAvailableOutputLines(Mixer mixer) {
@@ -173,7 +165,7 @@ public class Audio {
         return Arrays.stream(lineInfos)
                 .map(lineInfo -> getLineIfAvailable(mixer, lineInfo))
                 .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public static Line getLineIfAvailable(Mixer mixer, Line.Info lineInfo) {
