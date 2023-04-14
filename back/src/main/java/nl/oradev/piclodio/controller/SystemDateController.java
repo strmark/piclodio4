@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 @RestController
 public class SystemDateController {
 
-    @GetMapping(path = "/systemdate")
+    @GetMapping(path = "/systemdate/")
     public String getAlarm() {
         var amsterdam = ZoneId.of("Europe/Amsterdam");
         var now = ZonedDateTime.of(LocalDateTime.now(), amsterdam);

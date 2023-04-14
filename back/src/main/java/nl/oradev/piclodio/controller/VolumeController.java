@@ -18,7 +18,7 @@ public class VolumeController {
 
     private static final Logger logger = LoggerFactory.getLogger(VolumeController.class);
 
-    @GetMapping(path = "/volume", produces = "application/json")
+    @GetMapping(path = "/volume/", produces = "application/json")
     public String getVolume() {
         int volume = (int) Math.ceil(getSpeakerOutputVolume() * 100);
         volume = Math.max(volume, 0);
@@ -26,7 +26,7 @@ public class VolumeController {
         return "{\"volume\":" + volume + "}";
     }
 
-    @PostMapping(path = "/volume", produces = "application/json")
+    @PostMapping(path = "/volume/", produces = "application/json")
     public String updateVolume(@RequestBody VolumeRequest volume) {
         String volValue = volume.getVolume();
         float vol = Float.parseFloat(volValue) / 100;

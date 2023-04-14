@@ -30,12 +30,12 @@ public class PlayerController {
         this.vlcplayer = vlcPlayer;
     }
 
-    @GetMapping(path = "/player", produces = "application/json")
+    @GetMapping(path = "/player/", produces = "application/json")
     public String getPlayer() {
         return "{\"status\":\"on\"}";
     }
 
-    @PostMapping(path = "/player", produces = "application/json")
+    @PostMapping(path = "/player/", produces = "application/json")
     public String updatePlayer(@RequestBody PlayerRequest player) {
         logger.info("Webradio: {}", player.getWebradio());
 

@@ -1,5 +1,6 @@
 package nl.oradev.piclodio.controller;
 
+import jakarta.validation.Valid;
 import nl.oradev.piclodio.dto.AlarmDTO;
 import nl.oradev.piclodio.exception.ResourceNotFoundException;
 import nl.oradev.piclodio.job.AlarmJob;
@@ -29,7 +30,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
@@ -53,12 +53,12 @@ public class AlarmController {
         this.scheduler = scheduler;
     }
 
-    @GetMapping(path = "/alarms")
+    @GetMapping(path = "/alarms/")
     public List<Alarm> getAllAlarm() {
         return alarmRepository.findAll();
     }
 
-    @PostMapping(path = "/alarms")
+    @PostMapping(path = "/alarms/")
     public Alarm createAlarm(@Valid @RequestBody AlarmDTO alarmDTO) {
         return saveAlarm(alarmDTO, null);
     }

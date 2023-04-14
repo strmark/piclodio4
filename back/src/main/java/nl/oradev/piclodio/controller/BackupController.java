@@ -29,12 +29,12 @@ public class BackupController {
         this.backupRepository = backupRepository;
     }
 
-    @GetMapping(path = "/backup", produces = "application/json")
+    @GetMapping(path = "/backup/", produces = "application/json")
     public List<Backup> getBackup() {
         return backupRepository.findAll();
     }
 
-    @PostMapping(path = "/backup")
+    @PostMapping(path = "/backup/")
     public List<Backup> uploadFile(MultipartHttpServletRequest request) throws IOException {
         MultipartFile file = request.getFile(request.getFileNames().next());
         var dir = new File(TEMP_FILE);

@@ -1,5 +1,6 @@
 package nl.oradev.piclodio.controller;
 
+import jakarta.validation.Valid;
 import nl.oradev.piclodio.dto.WebradioDTO;
 import nl.oradev.piclodio.exception.ResourceNotFoundException;
 import nl.oradev.piclodio.model.Webradio;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin
@@ -30,12 +30,12 @@ public class WebradioController {
         this.webradioRepository = webradioRepository;
     }
 
-    @GetMapping("/webradio")
+    @GetMapping("/webradio/")
     public List<Webradio> getAllWebradio() {
         return webradioRepository.findAll();
     }
 
-    @PostMapping("/webradio")
+    @PostMapping("/webradio/")
     public Webradio createWebradio(@Valid @RequestBody WebradioDTO webradioDTO) {
         var webradio = new Webradio();
         webradio.setId(webradioDTO.id());
