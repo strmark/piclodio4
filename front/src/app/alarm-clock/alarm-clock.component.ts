@@ -32,7 +32,6 @@ export class AlarmClockComponent implements OnInit {
   maxAutoStopMinute: number[];
 
   newAlarmClock: boolean;
-  message: string;
   alarmClockToDelete: AlarmClock;
 
   private static getDismissReason(reason: any): string {
@@ -64,8 +63,10 @@ export class AlarmClockComponent implements OnInit {
   }
 
   deleteAlarmClock(alarmclock) {
-    this.alarmClockService.deleteAlarmClockById(alarmclock.id).subscribe(() => this.refreshAlarmClockList(),
-      error => console.log('error: ' + error));
+    this.alarmClockService.deleteAlarmClockById(alarmclock.id).subscribe({
+        next: () => this.refreshAlarmClockList(),
+        error: error => console.log('error: ' + error)
+      });
   }
 
   confirmDeleteAlarmClock(confDel, alarmclock: AlarmClock) {
@@ -93,12 +94,10 @@ export class AlarmClockComponent implements OnInit {
 
   switchActiveAlarmClock(alarmclock: AlarmClock) {
     alarmclock.active = !alarmclock.active;
-    this.alarmClockService.updateAlarmClockById(alarmclock.id, alarmclock).subscribe(
-      () => {
-        this.refreshAlarmClockList();
-      },
-      error => console.log('Error ' + error)
-    );
+    this.alarmClockService.updateAlarmClockById(alarmclock.id, alarmclock).subscribe({
+      next: () => this.refreshAlarmClockList(),
+      error: error => console.log('Error ' + error)
+    });
   }
 
   save() {
@@ -109,23 +108,19 @@ export class AlarmClockComponent implements OnInit {
       this.alarmclock.minute = this.timePicker.minute;
       this.alarmclock.active = true;
       console.log(this.alarmclock);
-      this.alarmClockService.addAlarmClock(this.alarmclock).subscribe(
-        () => {
-          this.refreshAlarmClockList();
-        },
-        error => console.log('Error ' + error)
-      );
+      this.alarmClockService.addAlarmClock(this.alarmclock).subscribe({
+          next: () => this.refreshAlarmClockList(),
+          error: error => console.log('Error ' + error)
+        });
     } else {
       console.log('alarm clock: alarm clock with id ' + this.alarmclock.id + ' already exist. Call update service');
       this.alarmclock.hour = this.timePicker.hour;
       this.alarmclock.minute = this.timePicker.minute;
 
-      this.alarmClockService.updateAlarmClockById(this.alarmclock.id, this.alarmclock).subscribe(
-        () => {
-          this.refreshAlarmClockList();
-        },
-        error => console.log('Error ' + error)
-      );
+      this.alarmClockService.updateAlarmClockById(this.alarmclock.id, this.alarmclock).subscribe({
+          next: () => this.refreshAlarmClockList(),
+          error: error => console.log('Error ' + error)
+        });
     }
 
     this.newAlarmClock = false;

@@ -7,7 +7,6 @@ import { HttpClientModule} from '@angular/common/http';
 import { FileUploadModule } from 'ng2-file-upload';
 import { OptionService } from './option/option.service';
 import { PlayerService } from './player/player.service';
-import { SystemDateService } from './homepage/systemdate.service';
 import { AlarmClockService} from './alarm-clock/alarm-clock.service';
 import { WebRadioService } from './web-radio/web-radio.service';
 import { AppComponent } from './app.component';
@@ -54,7 +53,7 @@ import { AlarmClockComponent } from './alarm-clock/alarm-clock.component';
     }
 ], {})
   ],
-  providers: [WebRadioService, AlarmClockService, SystemDateService, PlayerService, OptionService],
+  providers: [WebRadioService, AlarmClockService, PlayerService, OptionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -12,8 +12,7 @@ interface Alert {
 
 @Component({
   selector: 'app-option',
-  templateUrl: './option.component.html',
-  styleUrls: ['./option.component.css']
+  templateUrl: './option.component.html'
 })
 
 export class OptionComponent implements OnInit {
@@ -101,12 +100,10 @@ export class OptionComponent implements OnInit {
       newVolumeLevel = 0;
     }
     this.currentVolume.volume = newVolumeLevel;
-    this.optionService.setVolume(this.currentVolume).subscribe(
-      () => {
-        this.refreshVolume();
-      },
-      error => console.log('Error ' + error)
-    );
+    this.optionService.setVolume(this.currentVolume).subscribe({
+      next: () => this.refreshVolume(),
+      error: error => console.log('Error ' + error)
+    });
   }
 
   increaseVolume() {
@@ -116,12 +113,10 @@ export class OptionComponent implements OnInit {
       newVolumeLevel = 100;
     }
     this.currentVolume.volume = newVolumeLevel;
-    this.optionService.setVolume(this.currentVolume).subscribe(
-      () => {
-        this.refreshVolume();
-      },
-      error => console.log('Error ' + error)
-    );
+    this.optionService.setVolume(this.currentVolume).subscribe({
+      next: () => this.refreshVolume(),
+      error: error => console.log('Error ' + error)
+    });
   }
 }
 

@@ -1,16 +1,17 @@
 <h3>Volume</h3>
-  <div *ngIf="volumeLoaded">
-    <ngb-progressbar type="success" height="30px" value="{{currentVolume.volume}}">{{currentVolume.volume}}%</ngb-progressbar>
+<div *ngIf="volumeLoaded">
+  <ngb-progressbar type="success" height="30px" value="{{currentVolume.volume}}">{{currentVolume.volume}}%
+  </ngb-progressbar>
   <div class="row">
-     <div class="col-md-6">
-        <button (click)="reduceVolume()" type="button" class="btn btn-secondary btn-md btn-block">
-           <span class="fa fa-volume-down" aria-hidden="true"> Down</span>
-        </button>
-     </div>
-     <div class="col-md-6">
-        <button (click)="increaseVolume()" type="button" class="btn btn-secondary btn-md btn-block">
-           <span class="fa fa-volume-up" aria-hidden="true"> Up</span>
-        </button>
+    <div class="col-md-6">
+      <button (click)="reduceVolume()" type="button" class="btn btn-secondary btn-md btn-block">
+        <span class="fa fa-volume-down" aria-hidden="true"> Down</span>
+      </button>
+    </div>
+    <div class="col-md-6">
+      <button (click)="increaseVolume()" type="button" class="btn btn-secondary btn-md btn-block">
+        <span class="fa fa-volume-up" aria-hidden="true"> Up</span>
+      </button>
     </div>
   </div>
 </div>
@@ -19,7 +20,7 @@
 <div class="card card-body bg-light"> {{ currentBackup?.backupFile }} </div>
 <br>
 <label class="btn btn-secondary">
-    Change backup<input style="display:none;" type="file" name="backup" ng2FileSelect [uploader]="uploader"/>
+  Change backup<input style="display:none;" type="file" name="backup" ng2FileSelect [uploader]="uploader"/>
 </label>
 <p *ngFor="let alert of alerts">
   <ngb-alert [type]="alert.type" (close)="close(alert)">{{ alert.message }}</ngb-alert>
@@ -27,29 +28,30 @@
 
 <div *ngFor="let item of uploader.queue">
   <div class="row top-buffer">
-     <div class="col-xs-12 col-sm-6 col-md-8">
-        <strong>{{ item?.file?.name }}</strong>
-     </div>
+    <div class="col-xs-12 col-sm-6 col-md-8">
+      <strong>{{ item?.file?.name }}</strong>
+    </div>
   </div>
   <div class="row top-buffer">
-     <div class="col-xs-12 col-sm-6 col-md-8">
-        <button type="button" class="btn btn-success btn-md" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-            <span class="fa fa-upload"></span> Upload
-        </button>
-        <button type="button" class="btn btn-warning btn-md" (click)="item.cancel()" [disabled]="!item.isUploading">
-           <span class="fa fa-ban"></span> Cancel
-        </button>
-        <button type="button" class="btn btn-danger btn-md" (click)="item.remove()">
-           <span class="fa fa-trash"></span> Remove
-        </button>
-     </div>
-   </div>
-   <div class="row top-buffer">
-      <div class="col-md-12 col-md-6 col-md-6">
-         <div class="progress">
-            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
-         </div>
+    <div class="col-xs-12 col-sm-6 col-md-8">
+      <button type="button" class="btn btn-success btn-md" (click)="item.upload()"
+              [disabled]="item.isReady || item.isUploading || item.isSuccess">
+        <span class="fa fa-upload"></span> Upload
+      </button>
+      <button type="button" class="btn btn-warning btn-md" (click)="item.cancel()" [disabled]="!item.isUploading">
+        <span class="fa fa-ban"></span> Cancel
+      </button>
+      <button type="button" class="btn btn-danger btn-md" (click)="item.remove()">
+        <span class="fa fa-trash"></span> Remove
+      </button>
+    </div>
+  </div>
+  <div class="row top-buffer">
+    <div class="col-md-12 col-md-6 col-md-6">
+      <div class="progress">
+        <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
       </div>
-   </div>
+    </div>
+  </div>
 </div>
 
