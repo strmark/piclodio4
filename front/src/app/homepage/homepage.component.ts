@@ -28,9 +28,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
     }, 1);
   }
 
-  ngOnDestroy(): void {
-        throw new Error('Method not implemented.');
-    }
+  ngOnDestroy(): void {}
 
   ngOnInit() {
     this.webRadioService.getAllWebRadios()
