@@ -67,18 +67,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "piclodio:build"
+            "buildTarget": "piclodio:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "piclodio:build:production"
+              "buildTarget": "piclodio:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "piclodio:build"
+            "buildTarget": "piclodio:build"
           }
         },
         "test": {
