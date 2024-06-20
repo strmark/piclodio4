@@ -2,6 +2,7 @@
 .apt_generated
 .classpath
 .factorypath
+.kotlin/
 .project
 .settings
 .springBeans
