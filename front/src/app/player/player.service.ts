@@ -1,6 +1,6 @@
 import {Player} from './player';
 import {Observable} from 'rxjs';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {GlobalVariable} from '../globals';
 import {Injectable} from '@angular/core';
 
