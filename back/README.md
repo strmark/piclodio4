@@ -11,7 +11,7 @@ This installation procedure will works on Raspian.
 ``` bash
 sudo apt-get update
 sudo apt-get install apt-transport-https
-sudo apt-get install git openjdk-11-jdk vlc libasound2-dev
+sudo apt-get install git openjdk-17-jdk vlc libasound2-dev
 ```
 
 Download maven from https://maven.apache.org/ and follow the installation instruction within binary tar or zip.
@@ -41,6 +41,7 @@ Start the VLC player on the Raspberry Pi and select the Alsa Audio Output as the
 ### Manually with mvn
 ``` bash
 cd back
+mvn install
 mvn spring-boot:run
 ```
 

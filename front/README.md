@@ -6,9 +6,9 @@ This part of the project was written with Angular 7 and was generated with [angu
 
 ### Pre requisite
 
-Install nodejs 12x 
+Install nodejs 18x 
 ``` bash
-curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt-get install -y nodejs
 node --version
 ```
@@ -19,13 +19,13 @@ git clone https://github.com/strmark/piclodio4.git
 
 Install Angular cli
 ``` bash
-sudo npm install -g @angular/cli
+npm install -g @angular/cli
 ```
 
 Install dependencies
 ``` bash
 cd piclodio4/front/
-sudo npm install
+npm install8
 ```
 
 ### Run a development server
