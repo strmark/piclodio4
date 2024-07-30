@@ -25,7 +25,7 @@ npm install -g @angular/cli
 Install dependencies
 ``` bash
 cd piclodio4/front/
-npm install8
+npm install
 ```
 
 ### Run a development server
