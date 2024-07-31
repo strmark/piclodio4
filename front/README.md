@@ -19,7 +19,7 @@ git clone https://github.com/strmark/piclodio4.git
 
 Install Angular cli
 ``` bash
-npm install -g @angular/cli
+sudo npm install -g @angular/cli
 ```
 
 Install dependencies
@@ -45,8 +45,7 @@ sudo apt-get install nginx
 
 Build the project to generate static files
 ``` bash
-cd piclodio/front/
-ng build --prod --aot
+ng build --configuration production --aot
 ```
 
 The last command wil generate a "dist" folder. Place it in the nginx web server and give all right to the nginx user
