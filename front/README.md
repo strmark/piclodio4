@@ -55,7 +55,7 @@ sudo chown -R www-data: /var/www/piclodio
 ```
 
 ``` bash
-Edit the file default.conf `sudo nano /etc/nginx/sites-available/default.conf` and change the line
+Edit the file default.conf `sudo nano /etc/nginx/sites-available/default` and change the line
         root /var/www/html;
 with the following content
         root /var/www/piclodio;
