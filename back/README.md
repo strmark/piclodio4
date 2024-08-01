@@ -23,14 +23,14 @@ git clone https://github.com/strmark/piclodio4.git
 
 Make the necessary folders
 ``` bash
-mkdir /home/pi/database
 mkdir /home/pi/piclodio
+mkdir /home/pi/piclodio/database
 ```
 
 Copy the database to /home/pi/database
 ``` bash
 cd back
-cp database/piclodio.db.* /home/pi/database/
+cp database/piclodio.db.* /home/pi/piclodio/database/
 ```
 
 ## Run the backend
