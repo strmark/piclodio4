@@ -32,7 +32,7 @@ npm install
 
 Run the development server
 ``` bash
-ng serve --host 0.0.0.0
+ng serve
 ```
 Navigate to `http://server_ip:4200/`. The app will automatically reload if you change any of the source files.
 
