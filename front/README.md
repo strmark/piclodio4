@@ -1,6 +1,6 @@
 # Piclodio frontend
 
-This part of the project was written with Angular 7 and was generated with [angular-cli](https://github.com/angular/angular-cli) version 7.3.5. It is now updated to Angular 8.
+This part of the project was written with Angular 7 and was generated with [angular-cli](https://github.com/angular/angular-cli) version 7.3.5. It is now updated to Angular 18.
 
 ## Installation
 
@@ -28,9 +28,14 @@ cd piclodio4/front/
 npm install
 ```
 
+If your Pi runs out of memory export the following NODE_OPTION
+``` bash
+export NODE_OPTIONS="--max-old-space-size=1024"
+```
+
 ### Run a development server
 
-Run the development server
+Run the development server (for testing purposes). If you want to install the frontend continue with the next step Install nginx web server)
 ``` bash
 ng serve
 ```
