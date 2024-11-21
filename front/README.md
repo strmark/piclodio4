@@ -25,7 +25,7 @@ sudo npm install -g @angular/cli
 Install dependencies
 ``` bash
 cd piclodio4/front/
-npm install
+npm install --legacy-peer-deps
 ```
 
 If your Pi runs out of memory export the following NODE_OPTION

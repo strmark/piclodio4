@@ -6,9 +6,10 @@ import {WebRadioService} from '../web-radio/web-radio.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-alarm-clock',
-  templateUrl: './alarm-clock.component.html',
-  styleUrls: ['./alarm-clock.component.css']
+    selector: 'app-alarm-clock',
+    templateUrl: './alarm-clock.component.html',
+    styleUrls: ['./alarm-clock.component.css'],
+    standalone: false
 })
 export class AlarmClockComponent implements OnInit {
 

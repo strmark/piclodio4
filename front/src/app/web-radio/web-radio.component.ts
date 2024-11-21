@@ -8,7 +8,8 @@ import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-web-radio',
-    templateUrl: './web-radio.component.html'
+    templateUrl: './web-radio.component.html',
+    standalone: false
 })
 export class WebRadioComponent implements OnInit {
 

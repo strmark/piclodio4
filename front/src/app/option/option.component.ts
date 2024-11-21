@@ -11,8 +11,9 @@ interface Alert {
 }
 
 @Component({
-  selector: 'app-option',
-  templateUrl: './option.component.html'
+    selector: 'app-option',
+    templateUrl: './option.component.html',
+    standalone: false
 })
 
 export class OptionComponent implements OnInit {

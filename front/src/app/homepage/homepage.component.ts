@@ -7,9 +7,10 @@ import {WebRadio} from '../web-radio/web-radio';
 import {WebRadioService} from '../web-radio/web-radio.service';
 
 @Component({
-  selector: 'app-homepage',
-  templateUrl: './homepage.component.html',
-  styleUrls: ['./homepage.component.css']
+    selector: 'app-homepage',
+    templateUrl: './homepage.component.html',
+    styleUrls: ['./homepage.component.css'],
+    standalone: false
 })
 export class HomepageComponent implements OnInit, OnDestroy {
 
