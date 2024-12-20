@@ -10,7 +10,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-devkit/schematics": "^19.0.5",
+    "@angular-devkit/schematics": "^19.0.6",
     "@angular/animations": "^19.0.5",
     "@angular/common": "^19.0.5",
     "@angular/compiler": "^19.0.5",
@@ -31,14 +31,14 @@
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^19.0.5",
-    "@angular/cli": "~19.0.0",
+    "@angular-devkit/build-angular": "^19.0.6",
+    "@angular/cli": "~19.0.6",
     "@angular/compiler-cli": "^19.0.5",
-    "@types/jasmine": "~5.1.4",
-    "axios": "~1.7.7",
-    "jasmine-core": "~5.4.0",
+    "@types/jasmine": "~5.1.5",
+    "axios": "~1.7.9",
+    "jasmine-core": "~5.5.0",
     "karma": "^6.4.4",
     "typescript": "~5.5.4",
-    "vite": "~5.4.10"
+    "vite": "~6.0.5"
   }
 }
