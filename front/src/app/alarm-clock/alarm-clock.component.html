@@ -30,17 +30,17 @@
           <td class="text-center">{{alarmclock.autoStopMinutes}}</td>
           <td class="text-center">
           <button class="btn btn-default btn-md" (click)="open(content,alarmclock)">
-            <span class="fa fa-edit"></span>
+            <i class="fa fa-edit"></i>
           </button>
           </td>
           <td class="text-center">
             <button (click)="switchActiveAlarmClock(alarmclock)" type="button" class="btn btn-{{ alarmclock.active ? 'success' : 'default' }} btn-md">
-              <span class="fa {{ alarmclock.active ? 'fa-check' : 'fa-ban' }}"></span>
+              <i class="fa {{ alarmclock.active ? 'fa-check' : 'fa-ban' }}"></i>
             </button>
           </td>
           <td class="text-center">
             <button (click)="confirmDeleteAlarmClock(confDel, alarmclock)" class="btn btn-danger btn-md">
-              <span class="fa fa-trash"></span>
+              <i class="fa fa-trash"></i>
             </button>
           </td>
         </tr>
@@ -49,7 +49,7 @@
   </div>
   <div>
      <button (click)="open(content,alarmclock=null)" type="button" class="btn btn-outline-dark btn-md">
-        <span class="fa fa-plus"> Add</span>
+        <i class="fa fa-plus"></i> Add
      </button>
   </div>
 </div>

@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.3</version>
+        <version>3.5.5</version>
         <relativePath/>
     </parent>
     <groupId>nl.oradev</groupId>
@@ -15,10 +15,10 @@
     <properties>
         <java.version>17</java.version>
         <codehaus.version>2.18.0</codehaus.version>
-        <spring.version>3.5.3</spring.version>
+        <spring.version>3.5.5</spring.version>
         <h2.version>2.3.232</h2.version>
-        <snake.version>2.4</snake.version>
-        <swagger.version>2.8.9</swagger.version>
+        <snake.version>2.5</snake.version>
+        <swagger.version>2.8.12</swagger.version>
         <sonar.projectKey>strmark_piclodio4</sonar.projectKey>
         <sonar.organization>strmark</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -78,6 +78,9 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
+                <configuration>
+                    <ignoredVersions>.*-M.*,.*alpha.*,.*Alpha.*,.*-beta.*,.*-Beta.*,.*-RC.*,.*-rc.*,.*Dev.*</ignoredVersions>
+                </configuration>
             </plugin>
         </plugins>
     </build>
