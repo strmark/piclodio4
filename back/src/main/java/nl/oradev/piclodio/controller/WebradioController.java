@@ -38,7 +38,9 @@ public class WebradioController {
     @PostMapping("/webradio/")
     public Webradio createWebradio(@Valid @RequestBody WebradioDTO webradioDTO) {
         var webradio = new Webradio();
-        webradio.setId(webradioDTO.id());
+        if (webradioDTO.id() != null) {
+            webradio.setId(webradioDTO.id());
+        }
         webradio.setName(webradioDTO.name());
         webradio.setDefault(webradioDTO.isDefault());
         webradio.setUrl(webradioDTO.url());

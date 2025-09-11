@@ -1,21 +1,22 @@
 <h3>Internet Radio</h3>
 <div>
   <div class="table-responsive">
-  <table aria-describedby="Webradio" class="table table-striped">
-    <thead>
+    <table aria-describedby="Webradio" class="table table-striped">
+      <thead>
       <tr>
         <th scope="col">Name</th>
         <th scope="col">Play</th>
         <th scope="col">Change</th>
         <th scope="col">Delete</th>
       </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let webradio of webradios">
-        <td class="text-center">{{webradio.name}}</td>
+      </thead>
+      <tbody>
+      @for (webradio of webradios; track webradio.id) {
+      <tr>
+        <td class="text-center">{{ webradio.name }}</td>
         <td class="text-center">
           <button (click)="playWebRadio(webradio)" type="button" class="btn btn-success btn-md">
-              <i class="fa fa-play"></i>
+            <i class="fa fa-play"></i>
           </button>
         </td>
         <td class="text-center">
@@ -25,17 +26,18 @@
         </td>
         <td class="text-center">
           <button (click)="confirmDeleteWebRadio(confDel, webradio)" type="button" class="btn btn-danger btn-md">
-              <i class="fa fa-trash"></i>
+            <i class="fa fa-trash"></i>
           </button>
         </td>
       </tr>
-    </tbody>
-  </table>
+      }
+      </tbody>
+    </table>
   </div>
   <div>
-      <button (click)="open(content,webradio=null)" type="button" class="btn btn-outline-dark btn-md">
-          <i class="fa fa-plus"></i> Add
-      </button>
+    <button (click)="open(content,webradio=null)" type="button" class="btn btn-outline-dark btn-md">
+      <i class="fa fa-plus"></i> Add
+    </button>
   </div>
 </div>
 
@@ -46,39 +48,43 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body" *ngIf="webradio">
+  @if(webradio){
+  <div class="modal-body">
     <form name="content">
       <div class="form-group">
         <div class="input-group">
-           <div class="container col-md-12">
-              <div class="row">
-                 <div class="col-md-3"> <label for="name">Name</label> </div>
-                 <div class="col-md-9"> <input id="name" class="form-control" [(ngModel)]="webradio.name" name="name" /> </div>
-              </div>
-              <div class="row">
-                 <div class="col-md-3"> <label for="url">URL</label> </div>
-                 <div class="col-md-9"> <input id="url" class="form-control" [(ngModel)]="webradio.url" name="url"/> </div>
-              </div>
-           </div>
+          <div class="container col-md-12">
+            <div class="row">
+              <div class="col-md-3"><label for="name">Name</label></div>
+              <div class="col-md-9"><input id="name" class="form-control" [(ngModel)]="webradio.name" name="name"/></div>
+            </div>
+            <div class="row">
+              <div class="col-md-3"><label for="url">URL</label></div>
+              <div class="col-md-9"><input id="url" class="form-control" [(ngModel)]="webradio.url" name="url"/></div>
+            </div>
+          </div>
         </div>
       </div>
     </form>
   </div>
+  }
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
   </div>
 </ng-template>
 
 <ng-template #confDel let-modal>
-<div class="modal-header">
+  <div class="modal-header">
     <h4 class="modal-title" id="modal-title">Internet Radio deletion</h4>
     <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body" *ngIf="webRadioToDelete">
-    <p><strong>Are you sure you want to delete Internet Radio:  <span class="text-primary">{{webRadioToDelete.name}}</span> ?</strong></p>
+  @if(webRadioToDelete){
+  <div class="modal-body">
+    <p><strong>Are you sure you want to delete Internet Radio: <span class="text-primary">{{ webRadioToDelete.name }}</span> ?</strong></p>
   </div>
+  }
   <div class="modal-footer">
     <button type="button" ngbAutofocus class="btn btn-danger" (click)="modal.close('yes click')">Yes</button>
     <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('no click')">No</button>

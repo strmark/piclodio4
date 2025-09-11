@@ -1,45 +1,53 @@
 <h3>Time</h3>
 <div class="card card-body bg-light">
-<strong>{{clock | date: 'HH:mm:ss'}}</strong>
+  <strong>{{ clock | date: 'HH:mm:ss' }}</strong>
 </div>
 
 <h3>Active alarms</h3>
-  <div class="table-responsive">
-  <table aria-describedby= "homepage" class="table table-striped">
+<div class="table-responsive">
+  <table aria-describedby="homepage" class="table table-striped">
     <thead>
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Mo</th>
-        <th scope="col">Tu</th>
-        <th scope="col">We</th>
-        <th scope="col">Th</th>
-        <th scope="col">Fr</th>
-        <th scope="col">Sa</th>
-        <th scope="col">Su</th>
-      </tr>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Mo</th>
+      <th scope="col">Tu</th>
+      <th scope="col">We</th>
+      <th scope="col">Th</th>
+      <th scope="col">Fr</th>
+      <th scope="col">Sa</th>
+      <th scope="col">Su</th>
+    </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let active_alarm of activeAlarms">
-        <td class="text-center">{{active_alarm.name}}</td>
-        <td class="{{ active_alarm.monday  ? 'alarm-on' : 'alarm-off' }}"></td>
-        <td class="{{ active_alarm.tuesday  ? 'alarm-on' : 'alarm-off' }}"></td>
-        <td class="{{ active_alarm.wednesday  ? 'alarm-on' : 'alarm-off' }}"></td>
-        <td class="{{ active_alarm.thursday  ? 'alarm-on' : 'alarm-off' }}"></td>
-        <td class="{{ active_alarm.friday  ? 'alarm-on' : 'alarm-off' }}"></td>
-        <td class="{{ active_alarm.saturday  ? 'alarm-on' : 'alarm-off' }}"></td>
-        <td class="{{ active_alarm.sunday  ? 'alarm-on' : 'alarm-off' }}"></td>
-        <td class="text-center">{{ active_alarm.hour < 10 ? '0' : '' }}{{active_alarm.hour}}:{{ active_alarm.minute < 10 ? '0' : '' }}{{active_alarm.minute}}</td>
-      </tr>
+
+      @for (active_alarm of activeAlarms; track active_alarm) {
+        <tr>
+          <td class="text-center">{{ active_alarm.name }}</td>
+          <td class="{{ active_alarm.monday  ? 'alarm-on' : 'alarm-off' }}"></td>
+          <td class="{{ active_alarm.tuesday  ? 'alarm-on' : 'alarm-off' }}"></td>
+          <td class="{{ active_alarm.wednesday  ? 'alarm-on' : 'alarm-off' }}"></td>
+          <td class="{{ active_alarm.thursday  ? 'alarm-on' : 'alarm-off' }}"></td>
+          <td class="{{ active_alarm.friday  ? 'alarm-on' : 'alarm-off' }}"></td>
+          <td class="{{ active_alarm.saturday  ? 'alarm-on' : 'alarm-off' }}"></td>
+          <td class="{{ active_alarm.sunday  ? 'alarm-on' : 'alarm-off' }}"></td>
+          <td class="text-center">{{ active_alarm.hour < 10 ? '0' : '' }}{{ active_alarm.hour }}:{{ active_alarm.minute < 10 ? '0' : '' }}{{ active_alarm.minute }}</td>
+        </tr>
+      }
     </tbody>
   </table>
-  </div>
+</div>
 <h3>Player</h3>
-<div class="card card-body bg-light"
- *ngFor="let active_webradio of activeWebradios">{{active_webradio.name}}
+<div class="card card-body bg-light">
+  @for (active_webradio of activeWebradios; track active_webradio) {
+    {{ active_webradio.name }}
+  }
 </div>
 <br>
-<div *ngIf="playerLoaded">
-  <button (click)="switchPlayerStatus('on')" type="button" class="btn btn-{{ player.status == 'on' ? 'success' : 'default' }} btn-lg btn-outline-dark btn-block">Start</button>
-  <button (click)="switchPlayerStatus('off')" type="button" class="btn btn-{{ player.status == 'off' ? 'danger' : 'default' }} btn-lg btn-outline-dark btn-block">Stop</button>
-</div>
+
+@if (playerLoaded) {
+  <div>
+    <button (click)="switchPlayerStatus('on')" type="button" class="btn btn-{{ player.status == 'on' ? 'success' : 'default' }} btn-lg btn-outline-dark btn-block">Start</button>
+    <button (click)="switchPlayerStatus('off')" type="button" class="btn btn-{{ player.status == 'off' ? 'danger' : 'default' }} btn-lg btn-outline-dark btn-block">Stop</button>
+  </div>
+}
 

@@ -1,6 +1,8 @@
 <h3>Volume</h3>
-<div *ngIf="volumeLoaded">
-  <ngb-progressbar type="success" height="30px" value="{{currentVolume.volume}}">{{currentVolume.volume}}%
+
+@if(volumeLoaded){
+<div>
+  <ngb-progressbar type="success" height="30px" value="{{currentVolume.volume}}">{{ currentVolume.volume }}%
   </ngb-progressbar>
   <div class="row">
     <div class="col-md-6">
@@ -15,18 +17,22 @@
     </div>
   </div>
 </div>
+}
 <br>
 <h3>Backup MP3</h3>
-<div class="card card-body bg-light"> {{ currentBackup?.backupFile }} </div>
+<div class="card card-body bg-light"> {{ currentBackup?.backupFile }}</div>
 <br>
 <label class="btn btn-secondary">
   Change backup<input style="display:none;" type="file" name="backup" ng2FileSelect [uploader]="uploader"/>
 </label>
-<p *ngFor="let alert of alerts">
+@for (alert of alerts; track alert) {
+<p>
   <ngb-alert [type]="alert.type" (close)="close(alert)">{{ alert.message }}</ngb-alert>
 </p>
+}
 
-<div *ngFor="let item of uploader.queue">
+@for (item of uploader.queue; track item) {
+<div>
   <div class="row top-buffer">
     <div class="col-xs-12 col-sm-6 col-md-8">
       <strong>{{ item?.file?.name }}</strong>
@@ -54,4 +60,5 @@
     </div>
   </div>
 </div>
+}
 
