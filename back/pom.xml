@@ -13,11 +13,11 @@
     <description>Backend project with Spring Boot</description>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <codehaus.version>2.18.0</codehaus.version>
         <h2.version>2.4.240</h2.version>
         <snake.version>2.5</snake.version>
-        <swagger.version>2.8.15</swagger.version>
+        <swagger.version>2.8.13</swagger.version>
         <sonar.version>5.2.0.4988</sonar.version>
         <sonar.projectKey>strmark_piclodio4</sonar.projectKey>
         <sonar.organization>strmark</sonar.organization>
@@ -42,10 +42,6 @@
             <artifactId>spring-boot-starter-quartz</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-hateoas</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>${snake.version}</version>
@@ -57,7 +53,7 @@
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${swagger.version}</version>
         </dependency>
         <dependency>
