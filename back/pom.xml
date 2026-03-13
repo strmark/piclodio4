@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.2</version>
+        <version>4.0.3</version>
         <relativePath/>
     </parent>
     <groupId>nl.oradev</groupId>
@@ -16,8 +16,8 @@
         <java.version>21</java.version>
         <codehaus.version>2.18.0</codehaus.version>
         <h2.version>2.4.240</h2.version>
-        <snake.version>2.5</snake.version>
-        <swagger.version>3.0.1</swagger.version>
+        <snake.version>2.6</snake.version>
+        <swagger.version>3.0.2</swagger.version>
         <sonar.version>5.2.0.4988</sonar.version>
         <sonar.projectKey>strmark_piclodio4</sonar.projectKey>
         <sonar.organization>strmark</sonar.organization>
