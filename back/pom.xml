@@ -14,7 +14,7 @@
 
     <properties>
         <java.version>21</java.version>
-        <codehaus.version>2.18.0</codehaus.version>
+        <dependency.version>3.10.0</dependency.version>
         <h2.version>2.4.240</h2.version>
         <snake.version>2.6</snake.version>
         <swagger.version>3.0.2</swagger.version>
@@ -92,11 +92,9 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>versions-maven-plugin</artifactId>
-                <configuration>
-                    <ignoredVersions>.*-M.*,.*alpha.*,.*Alpha.*,.*-beta.*,.*-Beta.*,.*-RC.*,.*-rc.*,.*Dev.*</ignoredVersions>
-                </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${dependency.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
