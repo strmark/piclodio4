@@ -15,7 +15,7 @@
     <properties>
         <java.version>21</java.version>
         <dependency.version>3.11.0</dependency.version>
-        <h2.version>2.4.240</h2.version>
+        <h2.version>2.5.252</h2.version>
         <snake.version>2.7</snake.version>
         <swagger.version>3.1.1</swagger.version>
         <sonar.version>5.8.0.7211</sonar.version>
