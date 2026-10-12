@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {GlobalVariable} from '../globals';
 import {OptionService} from './option.service';
 import {Volume} from './volume';
@@ -13,6 +13,7 @@ interface Alert {
 @Component({
     selector: 'app-option',
     templateUrl: './option.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 

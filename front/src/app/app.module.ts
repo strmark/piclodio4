@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule} from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { FileUploadModule } from 'ng2-file-upload';
 import { OptionService } from './option/option.service';
 import { PlayerService } from './player/player.service';
@@ -48,5 +48,5 @@ import { AlarmClockComponent } from './alarm-clock/alarm-clock.component';
                 path: 'option',
                 component: OptionComponent
             }
-        ], {})], providers: [WebRadioService, AlarmClockService, PlayerService, OptionService, provideHttpClient(withInterceptorsFromDi())] })
+        ], {})], providers: [WebRadioService, AlarmClockService, PlayerService, OptionService, provideHttpClient(withXhr(), withInterceptorsFromDi())] })
 export class AppModule { }

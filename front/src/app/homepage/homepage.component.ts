@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {AlarmClock} from '../alarm-clock/alarm-clock';
 import {AlarmClockService} from '../alarm-clock/alarm-clock.service';
 import {Player} from '../player/player';
@@ -10,6 +10,7 @@ import {WebRadioService} from '../web-radio/web-radio.service';
     selector: 'app-homepage',
     templateUrl: './homepage.component.html',
     styleUrls: ['./homepage.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class HomepageComponent implements OnInit, OnDestroy {

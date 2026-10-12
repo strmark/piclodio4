@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Router} from '@angular/router';
 import {WebRadio} from './web-radio';
 import {Player} from '../player/player';
@@ -9,6 +9,7 @@ import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'app-web-radio',
     templateUrl: './web-radio.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class WebRadioComponent implements OnInit {

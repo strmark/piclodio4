@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {AlarmClockService} from './alarm-clock.service';
 import {AlarmClock} from './alarm-clock';
 import {WebRadio} from '../web-radio/web-radio';
@@ -9,6 +9,7 @@ import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
     selector: 'app-alarm-clock',
     templateUrl: './alarm-clock.component.html',
     styleUrls: ['./alarm-clock.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AlarmClockComponent implements OnInit {
